@@ -15,6 +15,10 @@ namespace Compiler.Model
             {
                 Console.WriteLine(t);
             }*/
+
+            /*string s = "kansdknsad";
+            Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
+
             Console.WriteLine("This is main method from Model package, " +
                 "change it if this is not your method" +
                 "Right click on Compiler project and properties" +
@@ -53,7 +57,7 @@ namespace Compiler.Model
             //// print Top element of Stack
             //Console.Write("\nTop element is {0}\n", obj.peek());
 
-            DS.Queue<String> queue = new DS.Queue<String>("Empty");
+            /*DS.Queue<String> queue = new DS.Queue<String>("Empty");
             queue.enqueue("as");
             queue.dequeue();
             queue.enqueue("ef");
@@ -61,7 +65,7 @@ namespace Compiler.Model
             queue.enqueue("mh");
             queue.display();
             Console.WriteLine(queue.peekFront());
-            Console.WriteLine(queue.peekRear());
+            Console.WriteLine(queue.peekRear());*/
             
         }
     }
