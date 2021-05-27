@@ -10,7 +10,15 @@ namespace Compiler.Model
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("1");
+            /*Token[] keywords = DevelopedFunctions.loadKeywords("../../keywords.txt");
+            foreach(Token t in keywords)
+            {
+                Console.WriteLine(t);
+            }*/
+            Console.WriteLine("This is main method from Model package, " +
+                "change it if this is not your method" +
+                "Right click on Compiler project and properties" +
+                "and change the startup object");
         }
     }
 }
