@@ -56,6 +56,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\Run.cs" />
+    <Compile Include="Model\DS\Queue.cs" />
+    <Compile Include="Model\DS\Stack.cs" />
     <Compile Include="Model\Token.cs" />
     <Compile Include="Model\DevelopedFunctions.cs" />
     <Compile Include="Model\Run.cs" />

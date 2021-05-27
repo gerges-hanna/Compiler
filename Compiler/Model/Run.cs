@@ -19,6 +19,50 @@ namespace Compiler.Model
                 "change it if this is not your method" +
                 "Right click on Compiler project and properties" +
                 "and change the startup object");
+
+
+
+            //DS.Stack<String> obj = new DS.Stack<String>("Empty");
+            //obj.push("as");
+            //obj.push("s");
+            //obj.push("sa");
+            //obj.push("w");
+
+            //// print Stack elements
+            //obj.display();
+
+            //// print Top element of Stack
+            //Console.Write("\nTop element is {0}\n", obj.peek());
+
+            //// Delete top element of Stack
+            //obj.pop();
+            //obj.pop();
+
+            //// print Stack elements
+            //obj.display();
+
+            //// print Top element of Stack
+            //Console.Write("\nTop element is {0}\n", obj.peek());
+
+            //obj.pop();
+            //obj.pop();
+
+            //// print Stack elements
+            //obj.display();
+
+            //// print Top element of Stack
+            //Console.Write("\nTop element is {0}\n", obj.peek());
+
+            DS.Queue<String> queue = new DS.Queue<String>("Empty");
+            queue.enqueue("as");
+            queue.dequeue();
+            queue.enqueue("ef");
+            queue.enqueue("ghn");
+            queue.enqueue("mh");
+            queue.display();
+            Console.WriteLine(queue.peekFront());
+            Console.WriteLine(queue.peekRear());
+            
         }
     }
 }
