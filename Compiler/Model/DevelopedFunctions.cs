@@ -166,5 +166,49 @@ namespace Compiler.Model
             }
             return newArray;
         }
+
+        public static string[] splitUsingArray(string s, char []chars)
+        {
+            string[] splittedStrings = new string[0];
+            int splittedIndex = 0;
+            char[] charBuffer = new char[0];
+            int bufferIndex = 0;
+            for(int i = 0; i < s.Length; i++)
+            {
+                bool foundSeperator = false;
+                for(int f = 0; f < chars.Length; f++)
+                {
+                    if(s[i] == chars[f])
+                    {
+                        foundSeperator = true;
+
+                        splittedStrings = copyAndAdd1<string>(splittedStrings);
+                        splittedStrings[splittedIndex] = new string(charBuffer);
+                        splittedIndex++;
+
+                        charBuffer = new char[0];
+                        bufferIndex = 0;
+
+                        splittedStrings = copyAndAdd1<string>(splittedStrings);
+                        splittedStrings[splittedIndex] = chars[f].ToString();
+                        splittedIndex++;
+                        break;
+                    }
+                }
+                if(!foundSeperator)
+                {
+                    charBuffer = copyAndAdd1<char>(charBuffer);
+                    charBuffer[bufferIndex] = s[i];
+                    bufferIndex++;
+                }
+            }
+            if(charBuffer.Length > 0)
+            {
+                splittedStrings = copyAndAdd1<string>(splittedStrings);
+                splittedStrings[splittedIndex] = new string(charBuffer);
+                splittedIndex++;
+            }
+            return splittedStrings;
+        }
     }
 }

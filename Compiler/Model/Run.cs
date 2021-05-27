@@ -19,6 +19,14 @@ namespace Compiler.Model
             /*string s = "kansdknsad";
             Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
 
+            char[] g = { '$', '^' };
+            string []s = DevelopedFunctions.splitUsingArray("Gerges$Hanna^", g);
+
+            for(int i = 0; i < s.Length; i++)
+            {
+                Console.WriteLine(s[i]);
+            }
+
             Console.WriteLine("This is main method from Model package, " +
                 "change it if this is not your method" +
                 "Right click on Compiler project and properties" +
