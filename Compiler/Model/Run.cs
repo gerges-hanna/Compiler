@@ -62,7 +62,7 @@ namespace Compiler.Model
             queue.display();
             Console.WriteLine(queue.peekFront());
             Console.WriteLine(queue.peekRear());
-            
+
         }
     }
 }
