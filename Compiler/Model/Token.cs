@@ -32,16 +32,6 @@
         {
             return a.getReturnToken() == this._returnToken;
         }
-
-        public static Token[] copyAndAdd1(Token []oldTokens)
-        {
-            Token[] returnValue = new Token[oldTokens.Length + 1];
-            for (int i = 0; i < oldTokens.Length; i++)
-            {
-                returnValue[i] = oldTokens[i];
-            }
-            return returnValue;
-        }
         public override string ToString()
         {
             return this._lexeme + " " + this._returnToken;
