@@ -166,7 +166,16 @@ namespace Compiler.Model
             }
             return newArray;
         }
-
+        /*
+            this function splits a string by a collection of delimiters
+            every delimiter must be one character
+            
+            returns every splitted string and the seperator after it
+            in an array of strings
+            
+            string s must be initalized and not empty
+            char[] chars must be initalized with seperators
+        */
         public static string[] splitUsingArray(string s, char []chars)
         {
             string[] splittedStrings = new string[0];
@@ -210,5 +219,59 @@ namespace Compiler.Model
             }
             return splittedStrings;
         }
+        /*
+            This functions tells if a string
+            only consist of digits or digits and digits after a dot
+
+            return true if a string only contains digits or digits
+            and only one dot and after it also digits
+            return false otherwise
+
+            string s must be initialized and not empty
+	    */
+        public static bool isNumber(string s)
+        {
+            int count = 0;
+            bool foundDot = false;
+            for(int i = 0; i < s.Length; i++)
+            {
+                if(isDigit(s[i]))
+                {
+                    count++;
+                }
+                else if(s[i] == '.' && i+1 < s.Length && isDigit(s[i+1]) && foundDot == false)
+                {
+                    foundDot = true;
+                    count++;
+                }
+                else if(s[i] == '.' && foundDot == true)
+                    return false;
+                else
+                    return false;
+            }
+            if(count == s.Length)
+            {
+               return true;
+            }
+            else
+                return false;
+        }
+
+        /*
+            check if a character is a digit
+            returns true if the character is digit
+            and false otherwise
+        */
+        public static bool isDigit(char c)
+        {
+            for(int i = 0; i < 10; i++)
+            {
+                if(c == '0' + i)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }        
     }
 }
