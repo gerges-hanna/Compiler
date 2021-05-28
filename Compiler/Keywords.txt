@@ -1,0 +1,56 @@
+Pattern	Class
+DerivedFrom	Inheritance
+TrueFor	Condition
+Else	Condition
+Ity	Integer
+Sity	SInteger
+Cwq	Character
+CwqSequence	String
+Ifity	Float
+Sifty	SFloat
+Valueless	Void
+Logical	Boolean
+BreakFromThis	Break
+Whatever	Loop
+RespondWith	Return
+Srap	Struct
+Scan	Switch
+Conditionof	Switch
+@	Start Symbol
+$	End Symbol
++	Arithmetic Operation
+-	Arithmetic Operation
+*	Arithmetic Operation
+/	Arithmetic Operation
+&&	Logic Operators
+||	Logic Operators
+==	relational operators
+<	relational operators
+>	relational operators
+!=	relational operators
+<=	relational operators
+>=	relational operators
+=	Assignment Operator
+->	Access Operator
+{	Braces
+}	Braces
+[	Braces
+]	Braces
+0	Constant
+1	Constant
+2	Constant
+3	Constant
+4	Constant
+5	Constant
+6	Constant
+7	Constant
+8	Constant
+9	Constant
+"	Quotation Mark
+'	Quotation Mark
+Require	Inclusion
+/-	Comment
+-/	UnComment
+--	Comment
+#	Token Delimiter
+^	Line Delimiter
