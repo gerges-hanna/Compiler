@@ -88,5 +88,26 @@
   <ItemGroup>
     <None Include="Resources\Webp.net-resizeimage %285%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Webp.net-resizeimage %288%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Webp.net-resizeimage %289%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Webp.net-resizeimage %2810%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
