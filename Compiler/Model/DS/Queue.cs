@@ -111,13 +111,21 @@ namespace Compiler.Model.DS
                 {
 
                     // print node data
-                    Console.Write("{0}  and  ", temp.key);
+                    Console.Write("{0}\t", temp.key);
 
                     // assign temp link to temp
                     temp = temp.next;
                 }
                 Console.WriteLine("");
             }
+        }
+
+        public bool isEmpty()
+        {
+            if (this.front == null)
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -262,7 +262,7 @@ namespace Compiler.Model
             returns true if the character is digit
             and false otherwise
         */
-        public static bool isDigit(char c)
+        private static bool isDigit(char c)
         {
             for(int i = 0; i < 10; i++)
             {
