@@ -16,6 +16,8 @@ namespace Compiler.Model
                 Console.WriteLine(t);
             }*/
 
+            Console.WriteLine(DevelopedFunctions.getReturnToken("kjfwe"));
+
             /*string s = "kansdknsad";
             Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
 
@@ -27,7 +29,7 @@ namespace Compiler.Model
             //    Console.WriteLine(s[i]);
             //}
 
-            Console.WriteLine("This is main method from Model package, " +
+            /*Console.WriteLine("This is main method from Model package, " +
                 "change it if this is not your method" +
                 "Right click on Compiler project and properties" +
                 "and change the startup object");

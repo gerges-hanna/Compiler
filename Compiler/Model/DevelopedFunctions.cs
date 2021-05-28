@@ -4,6 +4,7 @@ namespace Compiler.Model
 {
     public class DevelopedFunctions
     {
+        public static Token[] tokens;
         /*
             this function split a string into multiple substring
             based on the seperator
@@ -304,6 +305,27 @@ namespace Compiler.Model
                 }
             }
             return false;
-        }        
+        }
+        /*
+            this function takes a lexeme and returns
+            what's it equivalent in English language
+
+            string lexeme must be initalized
+        */
+        public static string getReturnToken(string lexeme)
+        {
+            if(tokens == null)
+            {
+                tokens = loadKeywords("../../keywords.txt");
+            }
+            for(int i = 0; i < tokens.Length; i++)
+            {
+                if(tokens[i].getLexeme() == lexeme)
+                {
+                    return tokens[i].getReturnToken();
+                }
+            }
+            return null;
+        }
     }
 }

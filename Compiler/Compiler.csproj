@@ -114,5 +114,8 @@
   <ItemGroup>
     <None Include="Resources\image %281%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Keywords.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
