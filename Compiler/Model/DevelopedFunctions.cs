@@ -66,6 +66,38 @@ namespace Compiler.Model
             return splittedStrings;
 
         }
+	/*
+            This function checks if a string is valid 
+            to be a mathod or variable name
+            
+            returns true if the string is valid name
+            and false otherwise
+            
+            string id must be initalized
+        */
+	public static bool isValidIdentifier(string id)
+	{
+	    int count = 0;
+	    for(int i = 0; i < id.Length; i++)
+	    {
+		if(i == 0 && isDigit(id[i]))
+		{
+		    return false;
+		}
+		for(int f = 0; f < 26; f++)
+		{
+		    if(id[i] == 'a' + f || id[i] == 'A' + f || id[i] == '_' || isDigit(id[i]))
+		    {
+			count++;
+			break;
+		    }
+		}
+	    }
+	    if(count == id.Length)
+		return true;
+	    else
+		return false;
+	}
         /*
             This function returns a substring from a certain index(startIndex)
             with a certain length
