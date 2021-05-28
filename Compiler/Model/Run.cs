@@ -33,7 +33,20 @@ namespace Compiler.Model
                 "and change the startup object");
 
 
+            String test1 ="/-qsqsdsfwefw==efdvfdre-/\n"+
+                "--This is main function\n" +
+                "Ity#decrease(){\n" +
+                "Ity#3num=5^\n" +
+                "Whatever (counter<num)\n"+
+                "reg3=reg3-1^} }\n";
 
+            Console.WriteLine(test1);
+
+
+            Model.Scanner scanner = new Scanner();
+            scanner.setProgram(test1);
+            scanner.getLexema();
+            scanner.queue.display();
             //DS.Stack<String> obj = new DS.Stack<String>("Empty");
             //obj.push("as");
             //obj.push("s");
@@ -73,8 +86,8 @@ namespace Compiler.Model
             queue.enqueue("mh");
             queue.display();
             Console.WriteLine(queue.peekFront());
-            Console.WriteLine(queue.peekRear());
-            
+            Console.WriteLine(queue.peekRear());*/
+
         }
     }
 }
