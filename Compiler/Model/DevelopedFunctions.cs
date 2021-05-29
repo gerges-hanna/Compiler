@@ -374,6 +374,11 @@ namespace Compiler.Model
 					charBuffer = new char[0];
 					charIndex = 0;
 					splitIndex++;
+
+                    splittedStrings = copyAndAdd1<string>(splittedStrings);
+                    splittedStrings[splitIndex] = seperators[f];
+                    splitIndex++;
+
 					i += seperators[f].Length-1;
 					foundSeperator = true;
 					break;
