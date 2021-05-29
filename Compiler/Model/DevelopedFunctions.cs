@@ -401,6 +401,18 @@ namespace Compiler.Model
 		return splittedStrings;
 
 	}
+    	public static bool areEqual(char []c, string s)
+	{
+		if(c.Length != s.Length)
+			return false;
+		for(int i = 0; i < c.Length; i++)
+		{
+			if(c[i] != s[i])
+				return false;
+		}
+		return true;
+
+	}
 
     }
 }
