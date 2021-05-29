@@ -327,5 +327,75 @@ namespace Compiler.Model
             }
             return null;
         }
+	/*
+		this function is for spliting a string using different lengthes of
+		string seperators
+
+		string s must be initalized
+		string[] seperators must be initalized
+
+		return an array of string with splitted strings in it using
+		the seperators array
+	*/
+	public static string [] splitStringUsingSTArray(string s, string[] seperators)
+	{
+		string []splittedStrings = new string[0];
+		int splitIndex = 0; // indexer for the splittedStrings array
+
+		char []charBuffer = new char[0];
+		int charIndex = 0; // index for the charBuffer array
+
+		// scan every character and compare it with 
+		// the seperator, if the seperator was found
+		// then push the scanned characters to the
+		// splittedStrings array and clear the
+		// charBuffer
+		for(int i = 0; i < s.Length; i++)
+		{
+			bool foundSeperator = false;
+			for(int f = 0; f < seperators.Length; f++)
+			{
+				int index = i;
+				int count = 0;
+				for(int g = 0; g < seperators[f].Length; g++)
+				{
+					if(index < s.Length && seperators[f][g] == s[index])
+					{
+						index++;
+						count++;
+					}
+					else
+						break;
+				}
+				if(count == seperators[f].Length && charBuffer.Length > 0)
+				{
+					splittedStrings = copyAndAdd1<string>(splittedStrings);
+					splittedStrings[splitIndex] = new string(charBuffer);
+					charBuffer = new char[0];
+					charIndex = 0;
+					splitIndex++;
+					i += seperators[f].Length-1;
+					foundSeperator = true;
+					break;
+				}
+
+			}
+			if(!foundSeperator)
+			{
+				charBuffer = copyAndAdd1<char>(charBuffer);
+				charBuffer[charIndex] = s[i];
+				charIndex++;
+			}
+		}
+		if(charBuffer.Length > 0)
+		{
+			splittedStrings = copyAndAdd1<string>(splittedStrings);
+			splittedStrings[splitIndex] = new string(charBuffer);
+		}
+		// return the splitted string;
+		return splittedStrings;
+
+	}
+
     }
 }
