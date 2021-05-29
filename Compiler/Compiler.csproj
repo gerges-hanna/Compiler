@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Compiler.Model.Run</StartupObject>
+    <StartupObject>Compiler.Editor.Run</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
