@@ -43,7 +43,7 @@ namespace Compiler.Model
             String test1 = "/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
                 "--This is main == function\n" +
                 "Ity#decr'e'ase(){\n" +
-                "Ity#3num=5^\n" +
+                "Ity#3num,z,y=5^\n" +
                 "Whatever (counter<num)\n" +
                 "reg3=reg3-1^} }\n";
             String test2 =

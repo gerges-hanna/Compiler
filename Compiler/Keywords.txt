@@ -50,6 +50,7 @@ $	End Symbol
 9	Constant
 "	Quotation Mark
 '	Quotation Mark
+,	Comma
 Require	Inclusion
 /-	Comment
 -/	UnComment
