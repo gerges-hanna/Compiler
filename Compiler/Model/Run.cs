@@ -16,12 +16,12 @@ namespace Compiler.Model
                 Console.WriteLine(t);
             }*/
 
-            Console.WriteLine(DevelopedFunctions.getReturnToken("wefef"));
+            /*Console.WriteLine(DevelopedFunctions.getReturnToken("wefef"));
             string lex = DevelopedFunctions.getReturnToken("Ity5");
             if (lex != null)
             {
                 Console.WriteLine("TRUUUUUUUUUUUUUUUe");
-            }
+            }*/
 
             /*string s = "kansdknsad";
             Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
@@ -64,12 +64,12 @@ namespace Compiler.Model
             scanner.getLexema();
             scanner.queue.display();
             Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
-            while (!scanner.queue.isEmpty())
+            int n = CodeErrors.getNumberOfErrors(scanner.queue);
+            for(int i = 0; i < CodeErrors.lines.Length; i++)
             {
-                Console.WriteLine(scanner.queue.peekFront().lineNo + "\t\t" + scanner.queue.peekFront().lexem + "\t\t" + scanner.queue.peekFront().lexemeNoInLine + "\t\t\t\t" + scanner.queue.peekFront().matchability + "\t\t" + scanner.queue.peekFront().returnToken);
-                scanner.queue.dequeue();
+                Console.WriteLine(CodeErrors.lines[i].lineNo + "\t" + CodeErrors.lines[i].lexem + "\t" + CodeErrors.lines[i].lexemeNoInLine + "\t" + CodeErrors.lines[i].matchability + "\t" + CodeErrors.lines[i].returnToken);
             }
-
+            Console.WriteLine(n);
             //DS.Stack<String> obj = new DS.Stack<String>("Empty");
             //obj.push("as");
             //obj.push("s");
