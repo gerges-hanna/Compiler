@@ -16,7 +16,12 @@ namespace Compiler.Model
                 Console.WriteLine(t);
             }*/
 
-            Console.WriteLine(DevelopedFunctions.getReturnToken("kjfwe"));
+            Console.WriteLine(DevelopedFunctions.getReturnToken("wefef"));
+            string lex = DevelopedFunctions.getReturnToken("Ity5");
+            if (lex != null)
+            {
+                Console.WriteLine("TRUUUUUUUUUUUUUUUe");
+            }
 
             /*string s = "kansdknsad";
             Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
@@ -29,41 +34,41 @@ namespace Compiler.Model
             //    Console.WriteLine(s[i]);
             //}
 
-            /*Console.WriteLine("This is main method from Model package, " +
-                "change it if this is not your method" +
-                "Right click on Compiler project and properties" +
-                "and change the startup object");
+            //Console.WriteLine("This is main method from Model package, " +
+            //    "change it if this is not your method" +
+            //    "Right click on Compiler project and properties" +
+            //    "and change the startup object");
 
-            //"/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
-            String test1 = "/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
-                "--This is main == function\n" +
-                "Ity#decr'e'ase(){\n" +
-                "Ity#3num=5^\n" +
-                "Whatever (counter<num)\n" +
-                "reg3=reg3-1^} }\n";
-            String test2 =
-                "/- it's comment so any thing here (*-*) not appear in lexema -/\n" +
-                "Ity#testVar=9^\n" +
-                "Sity#calculateFunction(Ity#index){\n" +
-                "	--it's make index increase an it's comment too\n" +
-                "	Whatever(index<testVar){\n" +
-                "		index=index+1^\n" +
-                "}\n" +
-                "}";
+            ////"/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
+            //String test1 = "/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
+            //    "--This is main == function\n" +
+            //    "Ity#decr'e'ase(){\n" +
+            //    "Ity#3num=5^\n" +
+            //    "Whatever (counter<num)\n" +
+            //    "reg3=reg3-1^} }\n";
+            //String test2 =
+            //    "/- it's comment so any thing here (*-*) not appear in lexema -/\n" +
+            //    "Ity#testVar=9^\n" +
+            //    "Sity#calculateFunction(Ity#index){\n" +
+            //    "	--it's make index increase an it's comment too\n" +
+            //    "	Whatever(index<testVar){\n" +
+            //    "		index=index+1^\n" +
+            //    "}\n" +
+            //    "}";
 
-            Console.WriteLine(test2);
+            //Console.WriteLine(test2);
 
 
-            Model.Scanner scanner = new Scanner();
-            scanner.setProgram(test2);
-            scanner.getLexema();
-            scanner.queue.display();
-            Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
-            while (!scanner.queue2.isEmpty())
-            {
-                Console.WriteLine(scanner.queue2.peekFront().lineNo + "\t\t" + scanner.queue2.peekFront().lexem + "\t\t" + scanner.queue2.peekFront().lexemeNoInLine + "\t\t\t\t" + scanner.queue2.peekFront().matchability);
-                scanner.queue2.dequeue();
-            } 
+            //Model.Scanner scanner = new Scanner();
+            //scanner.setProgram(test1);
+            //scanner.getLexema();
+            //scanner.queue.display();
+            //Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
+            //while (!scanner.queue.isEmpty())
+            //{
+            //    Console.WriteLine(scanner.queue.peekFront().lineNo + "\t\t" + scanner.queue.peekFront().lexem + "\t\t" + scanner.queue.peekFront().lexemeNoInLine + "\t\t\t\t" + scanner.queue.peekFront().matchability + "\t" + scanner.queue.peekFront().returnToken);
+            //    scanner.queue.dequeue();
+            //}
 
             //DS.Stack<String> obj = new DS.Stack<String>("Empty");
             //obj.push("as");
@@ -107,8 +112,14 @@ namespace Compiler.Model
             Console.WriteLine(queue.peekRear());*/
 
 
-
+            string x = "xa#$sd%%cssdc";
+            string[] ss = { "#$", "%%" };
+            string[] s=DevelopedFunctions.splitString2(x,ss);
+            for (int i = 0; i < s.Length; i++)
+            {
+                Console.WriteLine(s[i]);
+            }
 
         }
-    }
+}
 }

@@ -36,6 +36,8 @@ $	End Symbol
 }	Braces
 [	Braces
 ]	Braces
+(	Parentheses
+)	Parentheses
 0	Constant
 1	Constant
 2	Constant
