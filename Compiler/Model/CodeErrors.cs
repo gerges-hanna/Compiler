@@ -53,7 +53,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Identifier" || lines[i + 1].returnToken != "identifier")
+                            if (lines[i + 1].returnToken != "Identifier")
                             {
                                 after = false;
                             }
@@ -124,7 +124,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (lines[i - 1].returnToken != "Constant" || !DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (lines[i - 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
                             {
                                 before = false;
                             }
@@ -135,7 +135,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Constant" || !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (lines[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
                             {
                                 after = false;
                             }
@@ -174,10 +174,11 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Constant" || !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (lines[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
                             {
                                 after = false;
                             }
+                            
                         }
                         if (before)
                         {
@@ -256,7 +257,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (lines[i - 1].returnToken != "Identifier")
                             {
                                 before = false;
                             }
