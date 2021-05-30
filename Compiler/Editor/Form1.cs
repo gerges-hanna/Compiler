@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
 
 namespace Compiler.Editor
 {
@@ -19,7 +20,7 @@ namespace Compiler.Editor
         public static bool buttonPress = false;
         public int flagFirstLine=0;
         public int numberOfErrors=1;
-
+        public static string fromFile = "";
 
         //auto complete intialization
         bool listShow = false; //state of current list
@@ -79,9 +80,22 @@ namespace Compiler.Editor
         private void button1_Click_1(object sender, EventArgs e)
         {
             //compile button
+            if (table.Rows.Count > 0)
+              { 
+            table.Rows.Clear();
+                dataGridView1.DataSource = table;
+              }
             progressBar1.Value = 0;
             this.timer1.Start();
             dataGridView1.Visible = true;
+        
+
+            Model.Scanner sc = new Model.Scanner();
+            sc.setProgram((fromFile == "" ? richTextBox1.Text : fromFile));
+            sc.getLexema();
+            Model.CodeErrors.lines = new Model.ScannerModel[0];
+            numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);
+
             if (numberOfErrors > 0)
             {
                 button7.Text = "Erros:" + numberOfErrors;
@@ -94,21 +108,21 @@ namespace Compiler.Editor
                 button7.Enabled = false;
                 button7.Visible = false;
             }
-
-            table.Rows.Add("1","--","Comment","1","Matched");
-            dataGridView1.DataSource = table;
-
-            //foreach (var p in returnedList)
-            //{
-            //    var row = table.NewRow();
-            //    row["Line NO."] = p.returnedthing;
-            //    row["Lexeme"] = p.returnedthing;
-            //    row["Return Token"] = p.returnedthing;
-            //    row["Lexeme NO. in Line"] = p.returnedthing;
-            //    row["Matchability"] = p.returnedthing;
-            //    table.Rows.Add(row);
-            //}
+          //  table.Rows.Add("1","--","Comment","1","Matched");
             //dataGridView1.DataSource = table;
+
+          
+            foreach (var p in Model.CodeErrors.lines)
+            {
+                   var row = table.NewRow();
+                    row["Line NO."] = p.lineNo;
+                    row["Lexeme"] = p.lexem;
+                    row["Return Token"] = p.returnToken;
+                    row["Lexeme NO. in Line"] = p.lexemeNoInLine;
+                    row["Matchability"] = (p.matchability ? "Match" : "Unmatch");
+                    table.Rows.Add(row);
+            }
+            dataGridView1.DataSource = table;
 
 
         }
@@ -173,7 +187,6 @@ namespace Compiler.Editor
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             //label2.Text = "Col:" + richTextBox1.GetFirstCharIndexOfCurrentLine();
-
             // create the line number in the list box
             try
             {
@@ -298,7 +311,9 @@ namespace Compiler.Editor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.progressBar1.Increment(3);
+            this.progressBar1.Increment(10);
+
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -315,11 +330,16 @@ namespace Compiler.Editor
                 Filter = "txt files (*.txt)|*.txt",//txt extension
                 FilterIndex = 2,
                 RestoreDirectory = true,
-               // openFileDialog1.FileName  ---> open file name
+               //openFileDialog1.FileName, // ---> open file name
                 ReadOnlyChecked = true,
                 ShowReadOnly = true
             };
-            openFileDialog1.ShowDialog();
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(openFileDialog1.OpenFile());
+                fromFile = sr.ReadToEnd();
+                sr.Close();
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
