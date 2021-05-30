@@ -33,6 +33,7 @@ namespace Compiler.Editor
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -52,7 +53,6 @@ namespace Compiler.Editor
             this.button9 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -68,9 +68,9 @@ namespace Compiler.Editor
             this.panel1.Controls.Add(this.listBox1);
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.richTextBox1);
-            this.panel1.Location = new System.Drawing.Point(22, 80);
+            this.panel1.Location = new System.Drawing.Point(24, 80);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(807, 470);
+            this.panel1.Size = new System.Drawing.Size(805, 470);
             this.panel1.TabIndex = 2;
             // 
             // listBox2
@@ -99,6 +99,18 @@ namespace Compiler.Editor
             this.button4.Click += new System.EventHandler(this.button4_Click);
             this.button4.MouseHover += new System.EventHandler(this.button4_MouseHover);
             // 
+            // button3
+            // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
+            this.button3.Location = new System.Drawing.Point(722, 448);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(21, 19);
+            this.button3.TabIndex = 4;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
+            // 
             // textBox1
             // 
             this.textBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -110,16 +122,18 @@ namespace Compiler.Editor
             // 
             // listBox1
             // 
-            this.listBox1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.listBox1.BackColor = System.Drawing.Color.White;
             this.listBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBox1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 18;
             this.listBox1.Items.AddRange(new object[] {
             "1"});
-            this.listBox1.Location = new System.Drawing.Point(2, 2);
+            this.listBox1.Location = new System.Drawing.Point(3, 1);
             this.listBox1.Name = "listBox1";
             this.listBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.listBox1.Size = new System.Drawing.Size(41, 436);
+            this.listBox1.Size = new System.Drawing.Size(45, 436);
             this.listBox1.TabIndex = 2;
             this.listBox1.Click += new System.EventHandler(this.listBox1_Click);
             this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseClick);
@@ -330,18 +344,6 @@ namespace Compiler.Editor
             this.button5.Click += new System.EventHandler(this.button5_Click);
             this.button5.MouseHover += new System.EventHandler(this.button5_MouseHover);
             // 
-            // button3
-            // 
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
-            this.button3.Location = new System.Drawing.Point(722, 448);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(21, 19);
-            this.button3.TabIndex = 4;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
-            // 
             // button2
             // 
             this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
@@ -374,6 +376,7 @@ namespace Compiler.Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(839, 814);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.dataGridView1);
@@ -390,8 +393,9 @@ namespace Compiler.Editor
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Compiler";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

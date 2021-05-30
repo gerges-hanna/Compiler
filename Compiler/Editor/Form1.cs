@@ -74,11 +74,6 @@ namespace Compiler.Editor
             dataGridView1.Columns[4].Width = 150;
 
 
-
-
-
-
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -1060,7 +1055,7 @@ namespace Compiler.Editor
                         richTextBox1.Focus();
                     }
 
-                    if (e.KeyCode == Keys.Tab)
+                    if (e.KeyCode == Keys.ControlKey)
                     {
 
                         string autoText = listBox2.SelectedItem.ToString();
