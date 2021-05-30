@@ -50,9 +50,9 @@ namespace Compiler.Model
                 "/- it's comment so any thing here (*-*) not appear in lexema -/\n" +
                 "Ity#testVar=9^\n" +
                 "Sity#calculateFunction(Ity#index){\n" +
-                "	--it's make index increase an it's comment too\n" +
-                "	Whatever(index<testVar){\n" +
-                "		index=index+1^\n" +
+                "--it's make index increase an it's comment too\n" +
+                "Whatever(index<testVar){\n" +
+                "index=index+1^\n" +
                 "}\n" +
                 "}";
 
@@ -60,7 +60,7 @@ namespace Compiler.Model
 
 
             Model.Scanner scanner = new Scanner();
-            scanner.setProgram(test1);
+            scanner.setProgram(test2);
             scanner.getLexema();
             scanner.queue.display();
             Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
