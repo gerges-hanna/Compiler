@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Compiler.Editor
         public int numberOfErrors=1;
 
 
-
+        //auto complete intialization
         bool listShow = false; //state of current list
         string keyword;
         int count = 0;
@@ -38,8 +39,11 @@ namespace Compiler.Editor
         int TpressedFlag = 0;
         int VpressedFlag = 0;
         int WpressedFlag = 0;
+        //**********************************
 
 
+
+        int maxLC = 1; //maxLineCount 
 
 
         DataTable table = new DataTable();
@@ -68,6 +72,11 @@ namespace Compiler.Editor
             dataGridView1.Columns[2].Width = 150;
             dataGridView1.Columns[3].Width = 200;
             dataGridView1.Columns[4].Width = 150;
+
+
+
+
+
 
 
         }
@@ -168,35 +177,32 @@ namespace Compiler.Editor
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
+            //label2.Text = "Col:" + richTextBox1.GetFirstCharIndexOfCurrentLine();
 
-
-
-
-            //   label4.Text="Ln"+richTextBox1.GetFirstCharIndexOfCurrentLine();
-
-
-
-
-
-            int numOflines = int.Parse(richTextBox1.Lines.Length.ToString());
+            // create the line number in the list box
             try
             {
-                listBox1.Items.Insert(numOflines - 1, numOflines);
-                if (numOflines < listBox1.Items.Count)
+                int linecount = richTextBox1.GetLineFromCharIndex(richTextBox1.TextLength) + 1;
+                if (linecount != maxLC)
                 {
-                    for (int i = numOflines; i < listBox1.Items.Count; i++)
+                    listBox1.Items.Clear();
+                    for (int i = 1; i < linecount + 1; i++)
                     {
-                        listBox1.Items.RemoveAt(i);
+                        listBox1.Items.Add(Convert.ToString(i) + "\n");
                     }
+                    maxLC = linecount;
 
                 }
-                if (numOflines == 1)
-                {
-                    listBox1.Items.RemoveAt(1);
-                }
+
+
             }
             catch (ArgumentOutOfRangeException m)
             { }
+         
+
+
+            // get the total number of lines and control the list box
+            int numOflines = int.Parse(richTextBox1.Lines.Length.ToString());
             if (numOflines > 1)
             {
                 label1.Text = "Total lines:" + richTextBox1.Lines.Length.ToString();
@@ -211,6 +217,8 @@ namespace Compiler.Editor
                 label1.Text = "Total lines:0";
             }
 
+
+            //the follwing code controls the color of comments at text changing
             if (!buttonPress)
             {
                 int firstCharIndex = richTextBox1.GetFirstCharIndexOfCurrentLine();
@@ -239,13 +247,32 @@ namespace Compiler.Editor
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            richTextBox1.SelectAll();
+            //richTextBox1.SelectAll();
+            //coloring the text of the selected number in the line number
+            if (listBox1.SelectedIndex != -1)
+            {
+
+                richTextBox1.SelectAll();
+                richTextBox1.SelectionBackColor = richTextBox1.BackColor;
+                var lines = richTextBox1.Lines;
+                if (listBox1.SelectedIndex < 0 || listBox1.SelectedIndex >= lines.Length)
+                    return;
+                var start = richTextBox1.GetFirstCharIndexFromLine(listBox1.SelectedIndex);  // Get the 1st char index of the appended text
+                var length = lines[listBox1.SelectedIndex].Length;
+                richTextBox1.Select(start, length);                 // Select from there to the end
+                string colorcode = "#9bcaef";
+                int argb = Int32.Parse(colorcode.Replace("#", ""), NumberStyles.HexNumber);
+                richTextBox1.SelectionBackColor = Color.FromArgb(argb);
+            }
+
+
         }
 
         private void listBox1_Click(object sender, EventArgs e)
         {
             int curItem = listBox1.SelectedIndex;
             richTextBox1.Select(0,2);
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -1070,6 +1097,59 @@ namespace Compiler.Editor
                 }
             }
             catch (ArgumentOutOfRangeException z) { }
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionBackColor = Color.White;
+        }
+
+        private void richTextBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void listBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_SelectionChanged(object sender, EventArgs e)
+        {
+            //the following code get the cursor position in line and columns
+            int index = richTextBox1.SelectionStart;
+            int line = richTextBox1.GetLineFromCharIndex(index)+1;
+            label4.Text = "Ln:" + line.ToString();
+            int column = richTextBox1.SelectionStart - richTextBox1.GetFirstCharIndexFromLine(line-1);
+            label2.Text = "Col:" + column.ToString();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Files (*.txt)|*.txt|RTF Files (*.rtf)|*.rtf";
+            saveFileDialog.AddExtension = true;
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var extension = System.IO.Path.GetExtension(saveFileDialog.FileName);
+                if (extension.ToLower() == ".txt") /*saveFileDialog.FilterIndex==1*/
+                    richTextBox1.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
+                else
+                    richTextBox1.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
+            }
+        }
+
+        private void button9_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.AutoPopDelay = 5000;
+            toolTip1.InitialDelay = 10;
+            toolTip1.ReshowDelay = 500;
+            toolTip1.SetToolTip(button9, "Save file");
         }
     }
 }

@@ -113,6 +113,16 @@ namespace Compiler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Webp_net_resizeimage__12_ {
+            get {
+                object obj = ResourceManager.GetObject("Webp.net-resizeimage (12)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Webp_net_resizeimage__5_ {
             get {
                 object obj = ResourceManager.GetObject("Webp.net-resizeimage (5)", resourceCulture);
@@ -136,6 +146,16 @@ namespace Compiler.Properties {
         internal static System.Drawing.Bitmap Webp_net_resizeimage__9_ {
             get {
                 object obj = ResourceManager.GetObject("Webp.net-resizeimage (9)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Webp1 {
+            get {
+                object obj = ResourceManager.GetObject("Webp1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
