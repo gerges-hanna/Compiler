@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Compiler.Editor.Run</StartupObject>
+    <StartupObject>Compiler.Model.Run</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -56,6 +56,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\Run.cs" />
+    <Compile Include="Model\CodeErrors.cs" />
     <Compile Include="Model\DS\Queue.cs" />
     <Compile Include="Model\DS\Stack.cs" />
     <Compile Include="Model\Scanner.cs" />

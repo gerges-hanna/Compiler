@@ -16,7 +16,12 @@ namespace Compiler.Model
                 Console.WriteLine(t);
             }*/
 
-            Console.WriteLine(DevelopedFunctions.getReturnToken("kjfwe"));
+            /*Console.WriteLine(DevelopedFunctions.getReturnToken("wefef"));
+            string lex = DevelopedFunctions.getReturnToken("Ity5");
+            if (lex != null)
+            {
+                Console.WriteLine("TRUUUUUUUUUUUUUUUe");
+            }*/
 
             /*string s = "kansdknsad";
             Console.WriteLine(DevelopedFunctions.subString(s, 99, 99));*/
@@ -29,7 +34,7 @@ namespace Compiler.Model
             //    Console.WriteLine(s[i]);
             //}
 
-            /*Console.WriteLine("This is main method from Model package, " +
+            Console.WriteLine("This is main method from Model package, " +
                 "change it if this is not your method" +
                 "Right click on Compiler project and properties" +
                 "and change the startup object");
@@ -38,7 +43,7 @@ namespace Compiler.Model
             String test1 = "/-q's'qsd\"sfwe\"fw==efdvfdre-/\n" +
                 "--This is main == function\n" +
                 "Ity#decr'e'ase(){\n" +
-                "Ity#3num=5^\n" +
+                "Ity#3num,z,y=5^\n" +
                 "Whatever (counter<num)\n" +
                 "reg3=reg3-1^} }\n";
             String test2 =
@@ -55,16 +60,16 @@ namespace Compiler.Model
 
 
             Model.Scanner scanner = new Scanner();
-            scanner.setProgram(test2);
+            scanner.setProgram(test1);
             scanner.getLexema();
             scanner.queue.display();
             Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
-            while (!scanner.queue2.isEmpty())
+            int n = CodeErrors.getNumberOfErrors(scanner.queue);
+            for(int i = 0; i < CodeErrors.lines.Length; i++)
             {
-                Console.WriteLine(scanner.queue2.peekFront().lineNo + "\t\t" + scanner.queue2.peekFront().lexem + "\t\t" + scanner.queue2.peekFront().lexemeNoInLine + "\t\t\t\t" + scanner.queue2.peekFront().matchability);
-                scanner.queue2.dequeue();
-            } 
-
+                Console.WriteLine(CodeErrors.lines[i].lineNo + "\t" + CodeErrors.lines[i].lexem + "\t" + CodeErrors.lines[i].lexemeNoInLine + "\t" + CodeErrors.lines[i].matchability + "\t" + CodeErrors.lines[i].returnToken);
+            }
+            Console.WriteLine(n);
             //DS.Stack<String> obj = new DS.Stack<String>("Empty");
             //obj.push("as");
             //obj.push("s");
@@ -108,7 +113,16 @@ namespace Compiler.Model
 
 
 
-
+            //string[] splitters = { "#", "^" ,"=","\n"," "
+            //                        ,"@","$","+","-","*","/"
+            //                        ,"%","&","|","~","==","<"
+            //                        ,">","!","-","{","}","["
+            //                        ,"]","/","(",")","\"","\""};
+            //string[] s=DevelopedFunctions.splitStringUsingSTArray(test2,splitters);
+            //for (int i = 0; i < s.Length; i++)
+            //{
+            //    Console.WriteLine(s[i]);
+            //}
         }
-    }
+}
 }

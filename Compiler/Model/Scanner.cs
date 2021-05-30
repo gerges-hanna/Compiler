@@ -13,20 +13,13 @@ namespace Compiler.Model
                                     ,'@','$','+','-','*','/'
                                     ,'%','&','|','~','=','<'
                                     ,'>','!','-','{','}','['
-                                    ,']','/','(',')','\'','\"'};
+                                    ,']','/','(',')',',','\'','\"'};
 
 
 
-        public DS.Queue<string> queue = new DS.Queue<string>("Empty");
-        public DS.Queue<ScannerModel> queue2 = new DS.Queue<ScannerModel>(new ScannerModel());
+        public DS.Queue<ScannerModel> queue = new DS.Queue<ScannerModel>(new ScannerModel());
         ArrayList arlist = new ArrayList();
         
-
-        public int lineNo { get; set; }
-        public string lexem { get; set; }
-        public int lexemeNoInLine { get; set; }
-        public bool matchability { get; set; }
-
 
         //if found comment don't read and set it true
         private bool foundComment = false;
@@ -53,7 +46,7 @@ namespace Compiler.Model
 
             
         }
-
+        /******************************************/
 
         public void setProgram(String Program)
         {
@@ -79,6 +72,7 @@ namespace Compiler.Model
 
             int line = 1;
             int lexemLine = 0;
+            string lexeme;
             for (int i = 0; i < this.myArray.Length; i++)
             {
                 if (flag == 1)
@@ -103,15 +97,15 @@ namespace Compiler.Model
                         switch (this.myArray[i + 1])
                         {
                             case "-":
-                                queue.enqueue("/-");
+                                lexeme = "/-";
                                 foundComment = true;
                                 multiLineComment = true;
-                                setScannerOutput(line, "/-", ++lexemLine, true);
+                                setScannerModel(line, lexeme, ++lexemLine, true,DevelopedFunctions.getReturnToken(lexeme));
                                 flag = 1;
                                 break;
                             default:
-                                queue.enqueue("/");
-                                setScannerOutput(line, "/", ++lexemLine, true);
+                                lexeme = "/";
+                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                                 break;
                         }
                         break;
@@ -119,25 +113,25 @@ namespace Compiler.Model
                         switch (this.myArray[i+1])
                         {
                             case ">":
-                                queue.enqueue("->");
-                                setScannerOutput(line, "->", ++lexemLine, true);
+                                lexeme = "->";
+                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                                 flag = 1;
                                 break;
                             case "/":
-                                queue.enqueue("-/");
-                                setScannerOutput(line, "-/", ++lexemLine, true);
+                                lexeme = "-/";
+                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                                 flag = 1;
                                 break;
                             case "-":
-                                queue.enqueue("--");
-                                setScannerOutput(line, "--", ++lexemLine, true);
+                                lexeme = "--";
+                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                                 flag = 1;
                                 foundComment = true;
                                 break;
                             
                             default:
-                                queue.enqueue("-");
-                                setScannerOutput(line, "-", ++lexemLine, true);
+                                lexeme = "-";
+                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                                 break;
 
                         }
@@ -146,204 +140,68 @@ namespace Compiler.Model
                     case "=":
                         if (this.myArray[i + 1].Equals("="))
                         {
-                            queue.enqueue("==");
-                            setScannerOutput(line, "==", ++lexemLine, true);
+                            lexeme = "==";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }else
-                            queue.enqueue("=");
-                        setScannerOutput(line, "=", ++lexemLine, true);
+                        {
+                            lexeme = "=";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                        }
                         break;
                     case "<":
                         if (this.myArray[i + 1].Equals("="))
                         {
-                            queue.enqueue("<=");
-                            setScannerOutput(line, "<=", ++lexemLine, true);
+                            lexeme = "<=";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
                         else
                         {
-                            queue.enqueue("<");
-                            setScannerOutput(line, "<", ++lexemLine, true);
+                            lexeme = "<";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                         }      
                         break;
                     case ">":
                         if (this.myArray[i + 1].Equals("="))
                         {
-                            queue.enqueue(">=");
-                            setScannerOutput(line, ">=", ++lexemLine, true);
+                            lexeme = ">=";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
                         else
                         {
-                            queue.enqueue(">");
-                            setScannerOutput(line, ">", ++lexemLine, true);
+                            lexeme = ">";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                         }    
                         break;
                     case "!":
                         if (this.myArray[i + 1].Equals("="))
                         {
-                            queue.enqueue("!=");
-                            setScannerOutput(line, "!=", ++lexemLine, true);
+                            lexeme = "!=";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
                         break;
-                    case "+":
-                        queue.enqueue("+");
-                        setScannerOutput(line, "+", ++lexemLine, true);
-                        break;
-                    case "*":
-                        queue.enqueue("*");
-                        setScannerOutput(line, "*", ++lexemLine, true);
-                        break;
-                    case "%":
-                        queue.enqueue("%");
-                        setScannerOutput(line, "%", ++lexemLine, true);
-                        break;
-                    case "#":
-                        queue.enqueue("#");
-                        setScannerOutput(line, "#", ++lexemLine, true);
-                        break;
-                    case "^":
-                        queue.enqueue("^");
-                        setScannerOutput(line, "^", ++lexemLine, true);
-                        break;
-                    case "@":
-                        queue.enqueue("@");
-                        setScannerOutput(line, "@", ++lexemLine, true);
-                        break;
-                    case "$":
-                        queue.enqueue("$");
-                        setScannerOutput(line, "$", ++lexemLine, true);
-                        break;
-
                     case "&":
                         if (this.myArray[i + 1].Equals("&"))
                         {
-                            queue.enqueue("&&");
-                            setScannerOutput(line, "&&", ++lexemLine, true);
+                            lexeme = "&&";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
                         break;
                     case "|":
                         if (this.myArray[i + 1].Equals("|"))
                         {
-                            queue.enqueue("||");
-                            setScannerOutput(line, "||", ++lexemLine, true);
+                            lexeme = "||";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
                         break;
-                    case "~":
-                        queue.enqueue("~");
-                        setScannerOutput(line, "~", ++lexemLine, true);
-                        break;
-                    case "{":
-                        queue.enqueue("{");
-                        setScannerOutput(line, "{", ++lexemLine, true);
-                        break;
-                    case "}":
-                        queue.enqueue("}");
-                        setScannerOutput(line, "}", ++lexemLine, true);
-                        break;
-                    case "[":
-                        queue.enqueue("[");
-                        setScannerOutput(line, "[", ++lexemLine, true);
-                        break;
-                    case "]":
-                        queue.enqueue("]");
-                        setScannerOutput(line, "]", ++lexemLine, true);
-                        break;
-                    case "(":
-                        queue.enqueue("(");
-                        setScannerOutput(line, "(", ++lexemLine, true);
-                        break;
-                    case ")":
-                        queue.enqueue(")");
-                        setScannerOutput(line, ")", ++lexemLine, true);
-                        break;
 
-                    case "'":
-                        queue.enqueue("'");
-                        setScannerOutput(line, "'", ++lexemLine, true);
-                        break;
-                    case "\"":
-                        queue.enqueue("\"");
-                        setScannerOutput(line, "\"", ++lexemLine, true);
-                        break;
-                    case "Pattern":
-                        queue.enqueue("Pattern");
-                        setScannerOutput(line, "Pattern", ++lexemLine, true);
-                        break;
-                    case "DerivedFrom":
-                        queue.enqueue("DerivedFrom");
-                        setScannerOutput(line, "DerivedFrom", ++lexemLine, true);
-                        break;
-                    case "TrueFor":
-                        queue.enqueue("TrueFor");
-                        setScannerOutput(line, "TrueFor", ++lexemLine, true);
-                        break;
-                    case "Else":
-                        queue.enqueue("Else");
-                        setScannerOutput(line, "Else", ++lexemLine, true);
-                        break;
-                    case "Ity":
-                        queue.enqueue("Ity");
-                        setScannerOutput(line, "Ity", ++lexemLine, true);
-                        break;
-                    case "Sity":
-                        queue.enqueue("Sity");
-                        setScannerOutput(line, "Sity", ++lexemLine, true);
-                        break;
-                    case "Cwq":
-                        queue.enqueue("Cwq");
-                        setScannerOutput(line, "Cwq", ++lexemLine, true);
-                        break;
-                    case "CwqSequence":
-                        queue.enqueue("CwqSequence");
-                        setScannerOutput(line, "CwqSequence", ++lexemLine, true);
-                        break;
-                    case "Ifity":
-                        queue.enqueue("Ifity");
-                        setScannerOutput(line, "Ifity", ++lexemLine, true);
-                        break;
-                    case "Sifity":
-                        queue.enqueue("Sifity");
-                        setScannerOutput(line, "Sifity", ++lexemLine, true);
-                        break;
-                    case "Valueless":
-                        queue.enqueue("Valueless");
-                        setScannerOutput(line, "Valueless", ++lexemLine, true);
-                        break;
-                    case "Logical":
-                        queue.enqueue("Logical");
-                        setScannerOutput(line, "Logical", ++lexemLine, true);
-                        break;
-                    case "BreakFromThis":
-                        queue.enqueue("BreakFromThis");
-                        setScannerOutput(line, "BreakFromThis", ++lexemLine, true);
-                        break;
-                    case "Whatever":
-                        queue.enqueue("Whatever");
-                        setScannerOutput(line, "Whatever", ++lexemLine, true);
-                        break;
-                    case "Respondwith":
-                        queue.enqueue("Respondwith");
-                        setScannerOutput(line, "Respondwith", ++lexemLine, true);
-                        break;
-                    case "Srap":
-                        queue.enqueue("Srap");
-                        setScannerOutput(line, "Srap", ++lexemLine, true);
-                        break;
-                    case "Scan":
-                        queue.enqueue("Scan");
-                        setScannerOutput(line, "Scan", ++lexemLine, true);
-                        break;
-                    case "Conditionof":
-                        queue.enqueue("Conditionof");
-                        setScannerOutput(line, "Conditionof", ++lexemLine, true);
-                        break;
-                    case "Require":
-                        queue.enqueue("Require");
-                        setScannerOutput(line, "Require", ++lexemLine, true);
+                    default:
+                        setOutput(line, this.myArray[i], ++lexemLine);
                         break;
                 }
 
@@ -380,32 +238,47 @@ namespace Compiler.Model
             }
             return false;
         }
-        private void setScannerOutput(int lineNo, string lexem, int lexemeNoInLine, bool matchability)
+        
+        private void setOutput(int lineNo, string lexem, int lexemeNoInLine)
         {
-            queue2.enqueue(new ScannerModel()
+            string returnToken = DevelopedFunctions.getReturnToken(lexem);
+            if (returnToken != null)
+            {
+                setScannerModel(lineNo, lexem, lexemeNoInLine, true, returnToken);
+            }
+            else
+            {
+                if (DevelopedFunctions.isNumber(lexem))
+                    setScannerModel(lineNo, lexem, lexemeNoInLine, true, "Constant");
+                else
+                    setScannerModel(lineNo, lexem, lexemeNoInLine, true, "Identifier");
+
+            }
+
+        }
+        private void setScannerModel(int lineNo, string lexem, int lexemeNoInLine, bool matchability,string returnToken)
+        {
+            queue.enqueue(new ScannerModel()
             {
                 lineNo = lineNo,
                 lexem = lexem,
                 lexemeNoInLine = lexemeNoInLine,
-                matchability = matchability
+                matchability = matchability,
+                returnToken=returnToken
+
             });
         }
+
 }
     class ScannerModel
     {
+        
         public int lineNo { get; set; }
         public string lexem { get; set; }
         public int lexemeNoInLine { get; set; }
         public bool matchability { get; set; }
+        public string returnToken { get; set; }
 
+    }
 }
-}
 
-
-//
-//
-//case "Respondwith":
-//case "Srap":
-//case "Scan":
-//case "Conditionof":
-//case "Require":
