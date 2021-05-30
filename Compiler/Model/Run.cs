@@ -65,9 +65,9 @@ namespace Compiler.Model
             scanner.queue.display();
             Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
             int n = CodeErrors.getNumberOfErrors(scanner.queue);
-            for(int i = 0; i < CodeErrors.lines.Length; i++)
+            for(int i = 0; i < CodeErrors.rows.Length; i++)
             {
-                Console.WriteLine(CodeErrors.lines[i].lineNo + "\t" + CodeErrors.lines[i].lexem + "\t" + CodeErrors.lines[i].lexemeNoInLine + "\t" + CodeErrors.lines[i].matchability + "\t" + CodeErrors.lines[i].returnToken);
+                Console.WriteLine(CodeErrors.rows[i].lineNo + "\t" + CodeErrors.rows[i].lexem + "\t" + CodeErrors.rows[i].lexemeNoInLine + "\t" + CodeErrors.rows[i].matchability + "\t" + CodeErrors.rows[i].returnToken);
             }
             Console.WriteLine(n);
             //DS.Stack<String> obj = new DS.Stack<String>("Empty");

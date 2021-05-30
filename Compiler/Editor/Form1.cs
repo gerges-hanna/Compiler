@@ -93,7 +93,7 @@ namespace Compiler.Editor
             Model.Scanner sc = new Model.Scanner();
             sc.setProgram((fromFile == "" ? richTextBox1.Text : fromFile));
             sc.getLexema();
-            Model.CodeErrors.lines = new Model.ScannerModel[0];
+            Model.CodeErrors.rows = new Model.ScannerModel[0];
             numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);
 
             if (numberOfErrors > 0)
@@ -112,7 +112,7 @@ namespace Compiler.Editor
             //dataGridView1.DataSource = table;
 
           
-            foreach (var p in Model.CodeErrors.lines)
+            foreach (var p in Model.CodeErrors.rows)
             {
                    var row = table.NewRow();
                     row["Line NO."] = p.lineNo;
@@ -183,7 +183,7 @@ namespace Compiler.Editor
         {
             
         }
-
+        
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             //label2.Text = "Col:" + richTextBox1.GetFirstCharIndexOfCurrentLine();

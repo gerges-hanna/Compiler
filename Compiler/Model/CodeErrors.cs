@@ -4,7 +4,8 @@ namespace Compiler.Model
 {
     class CodeErrors
     {
-        public static ScannerModel[] lines = new ScannerModel[0];
+        
+        public static ScannerModel[] rows = new ScannerModel[0];
         public static int getNumberOfErrors(DS.Queue<ScannerModel> queue)
         {
             DS.Stack<string> curlyBrackets = new DS.Stack<string>("error");
@@ -20,15 +21,15 @@ namespace Compiler.Model
                 newSM.lexemeNoInLine = queue.peekFront().lexemeNoInLine;
                 newSM.matchability = queue.peekFront().matchability;
 
-                lines = DevelopedFunctions.copyAndAdd1<ScannerModel>(lines);
-                lines[linesIndex] = newSM;
+                rows = DevelopedFunctions.copyAndAdd1<ScannerModel>(rows);
+                rows[linesIndex] = newSM;
                 linesIndex++;
 
                 queue.dequeue();
             }
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < rows.Length; i++)
             {
-                switch (lines[i].lexem)
+                switch (rows[i].lexem)
                 {
                     case "#":
                         bool before = true;
@@ -39,73 +40,60 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (!(lines[i - 1].lexem == "Ity" || lines[i - 1].lexem == "Sity" ||
-                                lines[i - 1].lexem == "Cwq" || lines[i - 1].lexem == "CwqSequence" ||
-                                lines[i - 1].lexem == "Ifity" || lines[i - 1].lexem == "Sifity" ||
-                                lines[i - 1].lexem == "Valueless" || lines[i - 1].lexem == "Logical"))
+                            if (!(rows[i - 1].lexem == "Ity" || rows[i - 1].lexem == "Sity" ||
+                                rows[i - 1].lexem == "Cwq" || rows[i - 1].lexem == "CwqSequence" ||
+                                rows[i - 1].lexem == "Ifity" || rows[i - 1].lexem == "Sifity" ||
+                                rows[i - 1].lexem == "Valueless" || rows[i - 1].lexem == "Logical"))
                             {
                                 before = false;
                             }
                         }
-                        if (i + 1 >= lines.Length)
+                        if (i + 1 >= rows.Length)
                         {
                             after = false;
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Identifier")
+                            if (rows[i + 1].returnToken != "Identifier" && rows[i+1].lexem != "[")
                             {
                                 after = false;
                             }
                             else
                             {
-                                if (!DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                                if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i+1].matchability)
                                 {
-                                    after = false;
+                                    errorCounter++;
+                                    rows[i + 1].matchability = false;
                                 }
                             }
                         }
                         if (before)
                         {
-                            lines[i].matchability = true;
+                            rows[i].matchability = true;
                             if (!after)
                             {
-                                lines[i + 1].matchability = false;
+                                rows[i + 1].matchability = false;
                                 errorCounter++;
                             }
                         }
-                        else
+                        else if(!before)
                         {
-                            lines[i].matchability = false;
+                            rows[i-1].matchability = false;
                             errorCounter++;
                         }
-                        break;
+                    break;
                     case "{":
-                        if (i - 1 == -1)
-                        {
-                            errorCounter++;
-                            lines[i].matchability = false;
-                        }
-                        else
-                        {
-                            if (lines[i - 1].lexem != "Pattern" || lines[i - 1].lexem != "Else" ||
-                                !DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
-                            {
-                                errorCounter++;
-                                lines[i].matchability = false;
-                            }
-                        }
                         curlyBrackets.push("{");
-                        break;
+                    break;
                     case "}":
                         if (curlyBrackets.isEmpty() || curlyBrackets.peek() != "{")
                         {
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                             errorCounter++;
                         }
                         else if (curlyBrackets.peek() == "{")
                             curlyBrackets.pop();
-                        break;
+                    break;
                     case "/":
                     case "*":
                     case "-":
@@ -124,20 +112,22 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (lines[i - 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (rows[i - 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i-1].matchability)
                             {
-                                before = false;
+                                errorCounter++;
+                                rows[i - 1].matchability = false;
                             }
                         }
-                        if (i + 1 >= lines.Length)
+                        if (i + 1 >= rows.Length)
                         {
                             after = false;
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (rows[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i+1].matchability)
                             {
-                                after = false;
+                                errorCounter++;
+                                rows[i + 1].matchability = false;
                             }
                         }
                         if (before)
@@ -145,15 +135,15 @@ namespace Compiler.Model
                             if (!after)
                             {
                                 errorCounter++;
-                                lines[i + 1].matchability = false;
+                                rows[i + 1].matchability = false;
                             }
                         }
                         else
                         {
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                             errorCounter++;
                         }
-                        break;
+                    break;
                     case "=":
                         before = true;
                         after = true;
@@ -163,37 +153,41 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (rows[i-1].returnToken == "Identifier" && !DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i-1].matchability)
                             {
-                                before = false;
+                                errorCounter++;
+                                rows[i - 1].matchability = false;
                             }
                         }
-                        if (i + 1 >= lines.Length)
+                        if (i + 1 >= rows.Length)
                         {
                             after = false;
                         }
                         else
                         {
-                            if (lines[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (rows[i + 1].returnToken != "Quotation Mark" && rows[i+1].lexem != "{")
                             {
-                                after = false;
+                                if (rows[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i + 1].matchability)
+                                {
+                                    errorCounter++;
+                                    rows[i+1].matchability = false;
+                                }
                             }
-                            
                         }
                         if (before)
                         {
                             if (!after)
                             {
                                 errorCounter++;
-                                lines[i + 1].matchability = false;
+                                rows[i + 1].matchability = false;
                             }
                         }
                         else
                         {
                             errorCounter++;
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                         }
-                        break;
+                    break;
                     case "->":
                         before = true;
                         after = true;
@@ -203,20 +197,21 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (!DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i-1].matchability)
                             {
                                 before = false;
                             }
                         }
-                        if (i + 1 >= lines.Length)
+                        if (i + 1 >= rows.Length)
                         {
                             after = false;
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i - 1].matchability)
                             {
-                                after = false;
+                                errorCounter++;
+                                rows[i+1].matchability = false;
                             }
                         }
                         if (before)
@@ -224,118 +219,83 @@ namespace Compiler.Model
                             if (!after)
                             {
                                 errorCounter++;
-                                lines[i + 1].matchability = false;
+                                rows[i + 1].matchability = false;
                             }
                         }
                         else
                         {
                             errorCounter++;
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                         }
-                        break;
+                    break;
                     case "Require":
-                        if (i + 1 > lines.Length)
+                        if (i + 1 > rows.Length)
                         {
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                             errorCounter++;
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
+                            if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem))
                             {
-                                lines[i].matchability = false;
+                                rows[i].matchability = false;
                                 errorCounter++;
                             }
                         }
-                        break;
+                    break;
                     case ",":
                         before = true;
                         after = true;
-                        if (i - 1 == lines.Length)
-                        {
-                            before = false;
-                        }
-                        else
-                        {
-                            if (lines[i - 1].returnToken != "Identifier")
-                            {
-                                before = false;
-                            }
-                        }
-                        if (i + 1 >= lines.Length)
-                        {
-                            after = false;
-                        }
-                        else
-                        {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
-                            {
-                                after = false;
-                            }
-                        }
-                        if (before)
-                        {
-                            if (!after)
-                            {
-                                errorCounter++;
-                                lines[i + 1].matchability = false;
-                            }
-                        }
-                        else
-                        {
-                            errorCounter++;
-                            lines[i].matchability = false;
-                        }
-                        break;
-                    case "[":
-                        before = false;
-                        after = false;
                         if (i - 1 == -1)
                         {
                             before = false;
                         }
                         else
                         {
-                            if (!DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem))
+                            if (rows[i - 1].returnToken != "Constant")
                             {
-                                before = false;
+                                if (!DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i - 1].matchability)
+                                {
+                                    errorCounter++;
+                                    rows[i - 1].matchability = false;
+                                }
                             }
                         }
-                        if (i + 1 == lines.Length)
+                        if (i + 1 >= rows.Length)
                         {
                             after = false;
-                        }
-                        if (lines[i + 1].returnToken != "Constant" || !DevelopedFunctions.isValidIdentifier(lines[i + 1].lexem))
-                        {
-                            after = false;
-                        }
-                        if (before && !after)
-                        {
-                            errorCounter++;
-                            lines[i + 1].matchability = false;
                         }
                         else
                         {
-                            errorCounter++;
-                            lines[i].matchability = false;
+                            if(rows[i+1].returnToken != "Constant")
+                            {
+                                if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i + 1].matchability)
+                                {
+                                    errorCounter++;
+                                    rows[i + 1].matchability = false;
+                                }
+                            }
+                            
                         }
+                        if(!before || !after)
+                        {
+                            errorCounter++;
+                            rows[i].matchability = false;
+                        }
+                    break;
+                    case "[":
                         squareBrackets.push("[");
-                        break;
+                    break;
                     case "]":
                         if (squareBrackets.peek() != "[")
                         {
                             errorCounter++;
-                            lines[i].matchability = false;
+                            rows[i].matchability = false;
                             break;
                         }
                         else
                             squareBrackets.pop();
-                        if (i - 1 != -1 && (!DevelopedFunctions.isValidIdentifier(lines[i - 1].lexem) || lines[i - 1].returnToken != "Constant"))
-                        {
-                            errorCounter++;
-                            lines[i].matchability = false;
-                        }
-                        break;
+                    break;
                 }
             }
             return errorCounter;
