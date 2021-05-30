@@ -13,7 +13,7 @@ namespace Compiler.Model
                                     ,'@','$','+','-','*','/'
                                     ,'%','&','|','~','=','<'
                                     ,'>','!','-','{','}','['
-                                    ,']','/','(',')',',','\'','\"'};
+                                    ,']','/','(',')',',','\t','\'','\"'};
 
 
 
@@ -54,7 +54,7 @@ namespace Compiler.Model
             this.prepareList();
             for (int i = 0; i < splitProgram.Length; i++)
             {
-                if(!splitProgram[i].Equals("") && !splitProgram[i].Equals(" "))
+                if(!splitProgram[i].Equals("") && !splitProgram[i].Equals(" ") && !splitProgram[i].Equals("\t"))
                 {
                     this.addToList(splitProgram[i]);
                 }
@@ -94,51 +94,50 @@ namespace Compiler.Model
                         lexemLine = 0;
                         break;
                     case "/":
-                        switch (this.myArray[i + 1])
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("-"))
                         {
-                            case "-":
-                                lexeme = "/-";
-                                foundComment = true;
-                                multiLineComment = true;
-                                setScannerModel(line, lexeme, ++lexemLine, true,DevelopedFunctions.getReturnToken(lexeme));
-                                flag = 1;
-                                break;
-                            default:
-                                lexeme = "/";
-                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
-                                break;
+                            lexeme = "/-";
+                            foundComment = true;
+                            multiLineComment = true;
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                            flag = 1;
+                        }
+                        else
+                        {
+                            lexeme = "/";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                         }
                         break;
                     case "-":
-                        switch (this.myArray[i+1])
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals(">"))
                         {
-                            case ">":
-                                lexeme = "->";
-                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
-                                flag = 1;
-                                break;
-                            case "/":
-                                lexeme = "-/";
-                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
-                                flag = 1;
-                                break;
-                            case "-":
-                                lexeme = "--";
-                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
-                                flag = 1;
-                                foundComment = true;
-                                break;
-                            
-                            default:
-                                lexeme = "-";
-                                setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
-                                break;
-
+                            lexeme = "->";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                            flag = 1;
+                        }
+                        else if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("/"))
+                        {
+                            lexeme = "-/";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                            flag = 1;
+                        }
+                        else if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("-"))
+                        {
+                            lexeme = "--";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                            flag = 1;
+                            foundComment = true;
+                        }
+                        else
+                        {
+                            lexeme = "-";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                         }
                         break;
+                        
                     
                     case "=":
-                        if (this.myArray[i + 1].Equals("="))
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("="))
                         {
                             lexeme = "==";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
@@ -150,7 +149,7 @@ namespace Compiler.Model
                         }
                         break;
                     case "<":
-                        if (this.myArray[i + 1].Equals("="))
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("="))
                         {
                             lexeme = "<=";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
@@ -163,7 +162,7 @@ namespace Compiler.Model
                         }      
                         break;
                     case ">":
-                        if (this.myArray[i + 1].Equals("="))
+                        if (!isEndOfArray(myArray.Length,i+1) && this.myArray[i + 1].Equals("="))
                         {
                             lexeme = ">=";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
@@ -176,7 +175,7 @@ namespace Compiler.Model
                         }    
                         break;
                     case "!":
-                        if (this.myArray[i + 1].Equals("="))
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("="))
                         {
                             lexeme = "!=";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
@@ -184,19 +183,29 @@ namespace Compiler.Model
                         }
                         break;
                     case "&":
-                        if (this.myArray[i + 1].Equals("&"))
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("&"))
                         {
                             lexeme = "&&";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
                         }
+                        else
+                        {
+                            lexeme = "&";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
+                        }
                         break;
                     case "|":
-                        if (this.myArray[i + 1].Equals("|"))
+                        if (!isEndOfArray(myArray.Length, i + 1) && this.myArray[i + 1].Equals("|"))
                         {
                             lexeme = "||";
                             setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                             flag = 1;
+                        }
+                        else
+                        {
+                            lexeme = "|";
+                            setScannerModel(line, lexeme, ++lexemLine, true, DevelopedFunctions.getReturnToken(lexeme));
                         }
                         break;
 
@@ -255,6 +264,10 @@ namespace Compiler.Model
 
             }
 
+        }
+        private bool isEndOfArray(int length,int i)
+        {
+            return i == length ? true : false;
         }
         private void setScannerModel(int lineNo, string lexem, int lexemeNoInLine, bool matchability,string returnToken)
         {
