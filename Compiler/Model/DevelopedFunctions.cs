@@ -30,22 +30,32 @@ namespace Compiler.Model
             for(int i = 0; i < s.Length; i++)
             {
                 int count = 0;
+                int tmpIndex = i;
                 for(int f = 0; f < seperator.Length; f++)
                 {
-                    int tmpIndex = i;
-                    if(f < s.Length && s[tmpIndex] == seperator[f])
+                    
+                    if(f < s.Length && tmpIndex < s.Length && s[tmpIndex] == seperator[f])
                     {
                         tmpIndex++;
                         count++;
                     }
                 }
-                if(count == seperator.Length && charBuffer.Length > 0)
+                if(count == seperator.Length)
                 {
-                    splittedStrings = copyAndAdd1<string>(splittedStrings);
-                    splittedStrings[splitIndex] = new string(charBuffer);
-                    charBuffer = new char[0];
-                    charIndex = 0;
-                    splitIndex++;
+                    // if charBuffer is zero
+                    // then there was a delimiter just before
+                    // this delimiter, we can handle this by
+                    // not pushing anythin to the array
+                    // and increase the i by the length
+                    // of the seperator
+                    if(charBuffer.Length != 0)
+                    {
+                        splittedStrings = copyAndAdd1<string>(splittedStrings);
+                        splittedStrings[splitIndex] = new string(charBuffer);
+                        charBuffer = new char[0];
+                        charIndex = 0;
+                        splitIndex++;
+                    }
                     i += seperator.Length-1;
                 }
                 else
