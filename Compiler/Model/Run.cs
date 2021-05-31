@@ -10,6 +10,13 @@ namespace Compiler.Model
     {
         static void Main(string[] args)
         {
+            /*string AndrewTest = "Andrew$$#$$#EmadGGRKamel&&^&&&^&&^";
+            string[] seps = { "$$#", "GGR", "&&^&" };
+            string[] splitted = DevelopedFunctions.splitStringUsingSTArray(AndrewTest, seps);
+            foreach(var s in splitted)
+            {
+                Console.WriteLine(s);
+            }*/
             /*Token[] keywords = DevelopedFunctions.loadKeywords("../../keywords.txt");
             foreach(Token t in keywords)
             {

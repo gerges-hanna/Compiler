@@ -10,6 +10,7 @@ namespace Compiler.Model
         {
             DS.Stack<string> curlyBrackets = new DS.Stack<string>("error");
             DS.Stack<string> squareBrackets = new DS.Stack<string>("error");
+            DS.Stack<string> multiLineComment = new DS.Stack<string>("error");
             int errorCounter = 0;
             int linesIndex = 0;
             while (!queue.isEmpty())
@@ -130,15 +131,7 @@ namespace Compiler.Model
                                 rows[i + 1].matchability = false;
                             }
                         }
-                        if (before)
-                        {
-                            if (!after)
-                            {
-                                errorCounter++;
-                                rows[i + 1].matchability = false;
-                            }
-                        }
-                        else
+                        if(!before || !after)
                         {
                             rows[i].matchability = false;
                             errorCounter++;
@@ -296,8 +289,27 @@ namespace Compiler.Model
                         else
                             squareBrackets.pop();
                     break;
+                    case "/-":
+                        multiLineComment.push("/-");
+                    break;
+                    case "-/":
+                        if (multiLineComment.peek() != "/-")
+                        {
+                            rows[i].matchability = false;
+                            errorCounter++;
+                            break;
+                        }
+                        else
+                            multiLineComment.pop();
+                    break;
                 }
             }
+            if(!multiLineComment.isEmpty())
+                errorCounter++;
+            if (!curlyBrackets.isEmpty())
+                errorCounter++;
+            if (!squareBrackets.isEmpty())
+                errorCounter++;
             return errorCounter;
         }
     }

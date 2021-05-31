@@ -4,7 +4,7 @@ namespace Compiler.Model
 {
     public class DevelopedFunctions
     {
-        public static Token[] tokens;
+        private static Token[] tokens;
         /*
             this function split a string into multiple substring
             based on the seperator
@@ -77,7 +77,7 @@ namespace Compiler.Model
             return splittedStrings;
 
         }
-	/*
+	    /*
             This function checks if a string is valid 
             to be a mathod or variable name
             
@@ -86,29 +86,29 @@ namespace Compiler.Model
             
             string id must be initalized
         */
-	public static bool isValidIdentifier(string id)
-	{
-	    int count = 0;
-	    for(int i = 0; i < id.Length; i++)
+	    public static bool isValidIdentifier(string id)
 	    {
-		if(i == 0 && isDigit(id[i]))
-		{
-		    return false;
-		}
-		for(int f = 0; f < 26; f++)
-		{
-		    if(id[i] == 'a' + f || id[i] == 'A' + f || id[i] == '_' || isDigit(id[i]))
-		    {
-			count++;
-			break;
-		    }
-		}
+	        int count = 0;
+	        for(int i = 0; i < id.Length; i++)
+	        {
+		        if(i == 0 && isDigit(id[i]))
+		        {
+		            return false;
+		        }
+		        for(int f = 0; f < 26; f++)
+		        {
+		            if(id[i] == 'a' + f || id[i] == 'A' + f || id[i] == '_' || isDigit(id[i]))
+		            {
+			            count++;
+			            break;
+		            }
+		        }
+	        }
+	        if(count == id.Length)
+		        return true;
+	        else
+		        return false;
 	    }
-	    if(count == id.Length)
-		return true;
-	    else
-		return false;
-	}
         /*
             This function returns a substring from a certain index(startIndex)
             with a certain length
@@ -122,7 +122,7 @@ namespace Compiler.Model
             char[] charBuffer = new char[0];
             int bufferIndex = 0;
             int index = startIndex;
-            while (index < s.Length && index < startIndex+length)
+            while (index >= 0 && index < s.Length && index < startIndex+length)
             {
                 charBuffer = copyAndAdd1<char>(charBuffer);
                 charBuffer[bufferIndex] = s[index];
@@ -159,7 +159,7 @@ namespace Compiler.Model
             the filePath must be initalized non empty string and
             it is prefered to be absolute path
         */
-        public static Token [] loadKeywords(string filePath)
+        public static Token[] loadKeywords(string filePath)
         {
             Token[] keywords = new Token[0];
 
@@ -219,42 +219,43 @@ namespace Compiler.Model
             string s must be initalized and not empty
             char[] chars must be initalized with seperators
         */
-        public static string[] splitUsingArray(string s, char []chars)
+        public static string[] splitUsingArray(string s, char[] chars)
         {
             string[] splittedStrings = new string[0];
             int splittedIndex = 0;
             char[] charBuffer = new char[0];
             int bufferIndex = 0;
-            for(int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 bool foundSeperator = false;
-                for(int f = 0; f < chars.Length; f++)
+                for (int f = 0; f < chars.Length; f++)
                 {
-                    if(s[i] == chars[f])
+                    if (s[i] == chars[f])
                     {
                         foundSeperator = true;
+                        if (charBuffer.Length != 0)
+                        {
+                            splittedStrings = copyAndAdd1<string>(splittedStrings);
+                            splittedStrings[splittedIndex] = new string(charBuffer);
+                            splittedIndex++;
 
-                        splittedStrings = copyAndAdd1<string>(splittedStrings);
-                        splittedStrings[splittedIndex] = new string(charBuffer);
-                        splittedIndex++;
-
-                        charBuffer = new char[0];
-                        bufferIndex = 0;
-
+                            charBuffer = new char[0];
+                            bufferIndex = 0;
+                        }
                         splittedStrings = copyAndAdd1<string>(splittedStrings);
                         splittedStrings[splittedIndex] = chars[f].ToString();
                         splittedIndex++;
                         break;
                     }
                 }
-                if(!foundSeperator)
+                if (!foundSeperator)
                 {
                     charBuffer = copyAndAdd1<char>(charBuffer);
                     charBuffer[bufferIndex] = s[i];
                     bufferIndex++;
                 }
             }
-            if(charBuffer.Length > 0)
+            if (charBuffer.Length > 0)
             {
                 splittedStrings = copyAndAdd1<string>(splittedStrings);
                 splittedStrings[splittedIndex] = new string(charBuffer);
@@ -337,92 +338,92 @@ namespace Compiler.Model
             }
             return null;
         }
-	/*
-		this function is for spliting a string using different lengthes of
-		string seperators
+	    /*
+		    this function is for spliting a string using different lengthes of
+		    string seperators
 
-		string s must be initalized
-		string[] seperators must be initalized
+		    string s must be initalized
+		    string[] seperators must be initalized
 
-		return an array of string with splitted strings in it using
-		the seperators array
-	*/
-	public static string [] splitStringUsingSTArray(string s, string[] seperators)
-	{
-		string []splittedStrings = new string[0];
-		int splitIndex = 0; // indexer for the splittedStrings array
+		    return an array of string with splitted strings in it using
+		    the seperators array
+	    */
+	    public static string [] splitStringUsingSTArray(string s, string[] seperators)
+	    {
+		    string []splittedStrings = new string[0];
+		    int splitIndex = 0; // indexer for the splittedStrings array
 
-		char []charBuffer = new char[0];
-		int charIndex = 0; // index for the charBuffer array
+		    char []charBuffer = new char[0];
+		    int charIndex = 0; // index for the charBuffer array
 
-		// scan every character and compare it with 
-		// the seperator, if the seperator was found
-		// then push the scanned characters to the
-		// splittedStrings array and clear the
-		// charBuffer
-		for(int i = 0; i < s.Length; i++)
-		{
-			bool foundSeperator = false;
-			for(int f = 0; f < seperators.Length; f++)
-			{
-				int index = i;
-				int count = 0;
-				for(int g = 0; g < seperators[f].Length; g++)
-				{
-					if(index < s.Length && seperators[f][g] == s[index])
-					{
-						index++;
-						count++;
-					}
-					else
-						break;
-				}
-				if(count == seperators[f].Length && charBuffer.Length > 0)
-				{
-					splittedStrings = copyAndAdd1<string>(splittedStrings);
-					splittedStrings[splitIndex] = new string(charBuffer);
-					charBuffer = new char[0];
-					charIndex = 0;
-					splitIndex++;
+		    // scan every character and compare it with 
+		    // the seperator, if the seperator was found
+		    // then push the scanned characters to the
+		    // splittedStrings array and clear the
+		    // charBuffer
+		    for(int i = 0; i < s.Length; i++)
+		    {
+			    bool foundSeperator = false;
+			    for(int f = 0; f < seperators.Length; f++)
+			    {
+				    int index = i;
+				    int count = 0;
+				    for(int g = 0; g < seperators[f].Length; g++)
+				    {
+					    if(index < s.Length && seperators[f][g] == s[index])
+					    {
+						    index++;
+						    count++;
+					    }
+					    else
+						    break;
+				    }
+				    if(count == seperators[f].Length)
+				    {
+                        if (charBuffer.Length > 0)
+                        {
+                            splittedStrings = copyAndAdd1<string>(splittedStrings);
+                            splittedStrings[splitIndex] = new string(charBuffer);
+                            charBuffer = new char[0];
+                            charIndex = 0;
+                            splitIndex++;
+                        }
+                        splittedStrings = copyAndAdd1<string>(splittedStrings);
+                        splittedStrings[splitIndex] = seperators[f];
+                        splitIndex++;
 
-                    splittedStrings = copyAndAdd1<string>(splittedStrings);
-                    splittedStrings[splitIndex] = seperators[f];
-                    splitIndex++;
+					    i += seperators[f].Length-1;
+					    foundSeperator = true;
+					    break;
+				    }
 
-					i += seperators[f].Length-1;
-					foundSeperator = true;
-					break;
-				}
+			    }
+			    if(!foundSeperator)
+			    {
+				    charBuffer = copyAndAdd1<char>(charBuffer);
+				    charBuffer[charIndex] = s[i];
+				    charIndex++;
+			    }
+		    }
+		    if(charBuffer.Length > 0)
+		    {
+			    splittedStrings = copyAndAdd1<string>(splittedStrings);
+			    splittedStrings[splitIndex] = new string(charBuffer);
+		    }
+		    // return the splitted string;
+		    return splittedStrings;
 
-			}
-			if(!foundSeperator)
-			{
-				charBuffer = copyAndAdd1<char>(charBuffer);
-				charBuffer[charIndex] = s[i];
-				charIndex++;
-			}
-		}
-		if(charBuffer.Length > 0)
-		{
-			splittedStrings = copyAndAdd1<string>(splittedStrings);
-			splittedStrings[splitIndex] = new string(charBuffer);
-		}
-		// return the splitted string;
-		return splittedStrings;
-
-	}
+	    }
     	public static bool areEqual(char []c, string s)
-	{
-		if(c.Length != s.Length)
-			return false;
-		for(int i = 0; i < c.Length; i++)
-		{
-			if(c[i] != s[i])
-				return false;
-		}
-		return true;
-
-	}
-
+	    {
+		    if(c.Length != s.Length)
+			    return false;
+		    for(int i = 0; i < c.Length; i++)
+		    {
+			    if(c[i] != s[i])
+				    return false;
+		    }
+		    return true;
+	    }
     }
 }
