@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Font = System.Drawing.Font;
 
 namespace Compiler.Editor
 {
     public partial class Form1 : Form
     {
         System.Windows.Forms.ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
+        public int argb;
        
         public static bool buttonPress = false;
         public int flagFirstLine=0;
@@ -69,9 +73,9 @@ namespace Compiler.Editor
         
             dataGridView1.DataSource = table;
             dataGridView1.Columns[0].Width = 100;
-            dataGridView1.Columns[1].Width = 100;
+            dataGridView1.Columns[1].Width = 125;
             dataGridView1.Columns[2].Width = 150;
-            dataGridView1.Columns[3].Width = 200;
+            dataGridView1.Columns[3].Width = 150;
             dataGridView1.Columns[4].Width = 150;
 
 
@@ -80,6 +84,8 @@ namespace Compiler.Editor
         private void button1_Click_1(object sender, EventArgs e)
         {
             //compile button
+            richTextBox3.Clear();
+            richTextBox3.Visible = false;
             if (table.Rows.Count > 0)
               { 
             table.Rows.Clear();
@@ -257,6 +263,7 @@ namespace Compiler.Editor
         {
             //richTextBox1.SelectAll();
             //coloring the text of the selected number in the line number
+            buttonPress = false;
             if (listBox1.SelectedIndex != -1)
             {
 
@@ -269,10 +276,10 @@ namespace Compiler.Editor
                 var length = lines[listBox1.SelectedIndex].Length;
                 richTextBox1.Select(start, length);                 // Select from there to the end
                 string colorcode = "#9bcaef";
-                int argb = Int32.Parse(colorcode.Replace("#", ""), NumberStyles.HexNumber);
+                 argb = Int32.Parse(colorcode.Replace("#", ""), NumberStyles.HexNumber);
                 richTextBox1.SelectionBackColor = Color.FromArgb(argb);
             }
-
+           // buttonPress = true;
 
         }
 
@@ -280,7 +287,6 @@ namespace Compiler.Editor
         {
             int curItem = listBox1.SelectedIndex;
             richTextBox1.Select(0,2);
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -318,6 +324,7 @@ namespace Compiler.Editor
 
         private void button2_Click(object sender, EventArgs e)
         {
+           
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = @"C:\",//opening location
@@ -336,9 +343,20 @@ namespace Compiler.Editor
             };
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                richTextBox1.Enabled = false;
+                button11.Visible = true;
                 StreamReader sr = new StreamReader(openFileDialog1.OpenFile());
                 fromFile = sr.ReadToEnd();
                 sr.Close();
+                string newString = "";
+                
+                for(int i = 0; i < fromFile.Length; i++)
+                {
+                    if (fromFile[i] != '\r')
+                        newString += fromFile[i];
+                }
+                fromFile = newString;
+                MessageBox.Show("File is ready click Compile to start\nPress X to discard selected file");
             }
         }
 
@@ -492,7 +510,8 @@ namespace Compiler.Editor
 
         private void button8_Click(object sender, EventArgs e)
         {
-
+            richTextBox3.Visible = false;
+            dataGridView1.Visible = true;
         }
 
         private void richTextBox2_TextChanged(object sender, EventArgs e)
@@ -1154,8 +1173,10 @@ namespace Compiler.Editor
                 var extension = System.IO.Path.GetExtension(saveFileDialog.FileName);
                 if (extension.ToLower() == ".txt") /*saveFileDialog.FilterIndex==1*/
                     richTextBox1.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
+
                 else
                     richTextBox1.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
+                MessageBox.Show("Data Saved Successfully");
             }
         }
 
@@ -1165,6 +1186,123 @@ namespace Compiler.Editor
             toolTip1.InitialDelay = 10;
             toolTip1.ReshowDelay = 500;
             toolTip1.SetToolTip(button9, "Save file");
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            //the following buttons saves compiler output to a pdf 
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "PDF (*.pdf)|*.pdf";
+                sfd.FileName = "Output.pdf";
+                bool fileError = false;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(sfd.FileName))
+                    {
+                        try
+                        {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex)
+                        {
+                            fileError = true;
+                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                        }
+                    }
+                    if (!fileError)
+                    {
+                        try
+                        {
+                            PdfPTable pdfTable = new PdfPTable(dataGridView1.Columns.Count);
+                            pdfTable.DefaultCell.Padding = 6;
+                            pdfTable.WidthPercentage = 100;
+                            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                pdfTable.AddCell(cell);
+                            }
+
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
+                            {
+                                foreach (DataGridViewCell cell in row.Cells)
+                                {
+                                    pdfTable.AddCell(cell.Value.ToString());
+                                }
+                            }
+
+                            using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                            {
+                                Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
+                                PdfWriter.GetInstance(pdfDoc, stream);
+                                pdfDoc.Open();
+                                pdfDoc.Add(pdfTable);
+                                pdfDoc.Close();
+                                stream.Close();
+                            }
+
+                            MessageBox.Show("Data Exported Successfully", "Info");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Data To Export", "Info");
+            }
+        }
+
+        private void button10_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.AutoPopDelay = 5000;
+            toolTip1.InitialDelay = 10;
+            toolTip1.ReshowDelay = 500;
+            toolTip1.SetToolTip(button10, "Export PDF file");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            richTextBox3.Clear();
+            button8.Enabled = true;
+            dataGridView1.Visible = false;
+            int counter = 1;
+            if (numberOfErrors > 0)
+            {
+                foreach (var p in Model.CodeErrors.rows)
+                {
+                   if(p.matchability == false)
+                    {
+                        string STR = $"{counter}.  Error in line [{p.lineNo}]  --> Lexeme [{p.lexem}]  ,Return Token [{p.returnToken}]";
+                        richTextBox3.Text = richTextBox3.Text + STR ;
+                        richTextBox3.AppendText(Environment.NewLine);
+                        counter++;
+                        
+                    }
+                }
+                richTextBox3.Visible = true;
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Enabled = true;
+            fromFile = "";
+            button11.Visible=false;
+        }
+
+        private void button11_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.AutoPopDelay = 5000;
+            toolTip1.InitialDelay = 10;
+            toolTip1.ReshowDelay = 500;
+            toolTip1.SetToolTip(button11, "Stop browsing process");
         }
     }
 }

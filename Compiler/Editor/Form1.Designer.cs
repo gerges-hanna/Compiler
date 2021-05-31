@@ -33,7 +33,6 @@ namespace Compiler.Editor
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -50,11 +49,15 @@ namespace Compiler.Editor
             this.button8 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.button11 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -98,18 +101,6 @@ namespace Compiler.Editor
             this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             this.button4.MouseHover += new System.EventHandler(this.button4_MouseHover);
-            // 
-            // button3
-            // 
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
-            this.button3.Location = new System.Drawing.Point(722, 448);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(21, 19);
-            this.button3.TabIndex = 4;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
             // 
             // textBox1
             // 
@@ -264,6 +255,7 @@ namespace Compiler.Editor
             this.button7.Text = "Errors:";
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Visible = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -301,6 +293,20 @@ namespace Compiler.Editor
             this.dataGridView1.TabIndex = 14;
             this.dataGridView1.Visible = false;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // button10
+            // 
+            this.button10.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.button10.FlatAppearance.BorderSize = 2;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Image = global::Compiler.Properties.Resources.pngwing_com__2_;
+            this.button10.Location = new System.Drawing.Point(795, 769);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(32, 33);
+            this.button10.TabIndex = 16;
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.button10.MouseHover += new System.EventHandler(this.button10_MouseHover);
             // 
             // button9
             // 
@@ -344,6 +350,18 @@ namespace Compiler.Editor
             this.button5.Click += new System.EventHandler(this.button5_Click);
             this.button5.MouseHover += new System.EventHandler(this.button5_MouseHover);
             // 
+            // button3
+            // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
+            this.button3.Location = new System.Drawing.Point(722, 448);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(21, 19);
+            this.button3.TabIndex = 4;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
+            // 
             // button2
             // 
             this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
@@ -372,12 +390,43 @@ namespace Compiler.Editor
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             this.button1.MouseHover += new System.EventHandler(this.button1_MouseHover);
             // 
+            // richTextBox3
+            // 
+            this.richTextBox3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox3.Location = new System.Drawing.Point(71, 565);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.richTextBox3.Size = new System.Drawing.Size(694, 205);
+            this.richTextBox3.TabIndex = 17;
+            this.richTextBox3.Text = "";
+            this.richTextBox3.Visible = false;
+            this.richTextBox3.WordWrap = false;
+            // 
+            // button11
+            // 
+            this.button11.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button11.ForeColor = System.Drawing.Color.Red;
+            this.button11.Location = new System.Drawing.Point(24, 45);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(75, 23);
+            this.button11.TabIndex = 18;
+            this.button11.Text = "X";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Visible = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.button11.MouseHover += new System.EventHandler(this.button11_MouseHover);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(839, 814);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.richTextBox3);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button8);
@@ -432,5 +481,8 @@ namespace Compiler.Editor
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.Button button11;
     }
 }
