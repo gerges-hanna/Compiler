@@ -11,6 +11,8 @@ namespace Compiler.Model
             DS.Stack<string> curlyBrackets = new DS.Stack<string>("error");
             DS.Stack<string> squareBrackets = new DS.Stack<string>("error");
             DS.Stack<string> multiLineComment = new DS.Stack<string>("error");
+            DS.Stack<string> doubleQuotationMark = new DS.Stack<string>("error");
+            DS.Stack<char> singleQuotationMark = new DS.Stack<char>('e');
             int errorCounter = 0;
             int linesIndex = 0;
             while (!queue.isEmpty())
@@ -77,11 +79,12 @@ namespace Compiler.Model
                                 errorCounter++;
                             }
                         }
-                        else if(!before)
+                        else if(!before && i-1 != -1)
                         {
                             rows[i-1].matchability = false;
                             errorCounter++;
                         }
+                        
                     break;
                     case "{":
                         curlyBrackets.push("{");
@@ -113,7 +116,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (rows[i - 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i-1].matchability)
+                            if (rows[i-1].returnToken == "Identifier" && !DevelopedFunctions.isValidIdentifier(rows[i - 1].lexem) && rows[i-1].matchability)
                             {
                                 errorCounter++;
                                 rows[i - 1].matchability = false;
@@ -125,7 +128,7 @@ namespace Compiler.Model
                         }
                         else
                         {
-                            if (rows[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i+1].matchability)
+                            if (rows[i + 1].returnToken == "Identifier" && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i+1].matchability)
                             {
                                 errorCounter++;
                                 rows[i + 1].matchability = false;
@@ -160,25 +163,20 @@ namespace Compiler.Model
                         {
                             if (rows[i + 1].returnToken != "Quotation Mark" && rows[i+1].lexem != "{")
                             {
-                                if (rows[i + 1].returnToken != "Constant" && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem) && rows[i + 1].matchability)
+                                if (rows[i + 1].returnToken != "Constant"
+                                    &&(rows[i+1].returnToken == "Identifier"
+                                    && !DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem)
+                                    && rows[i + 1].matchability))
                                 {
                                     errorCounter++;
                                     rows[i+1].matchability = false;
                                 }
                             }
                         }
-                        if (before)
+                        if(!before || !after)
                         {
-                            if (!after)
-                            {
-                                errorCounter++;
-                                rows[i].matchability = false;
-                            }
-                        }
-                        else
-                        {
-                            errorCounter++;
                             rows[i].matchability = false;
+                            errorCounter++;
                         }
                     break;
                     case "->":
@@ -302,13 +300,29 @@ namespace Compiler.Model
                         else
                             multiLineComment.pop();
                     break;
+                    case "\'":
+                        if(!singleQuotationMark.isEmpty())
+                            singleQuotationMark.pop();
+                        else
+                            singleQuotationMark.push('\'');
+                    break;
+                    case "\"":
+                        if (!doubleQuotationMark.isEmpty())
+                            doubleQuotationMark.pop();
+                        else
+                            doubleQuotationMark.push("\"");
+                    break;
                 }
             }
-            if(!multiLineComment.isEmpty())
+            if (!multiLineComment.isEmpty())
                 errorCounter++;
             if (!curlyBrackets.isEmpty())
                 errorCounter++;
             if (!squareBrackets.isEmpty())
+                errorCounter++;
+            if (!singleQuotationMark.isEmpty())
+                errorCounter++;
+            if (!doubleQuotationMark.isEmpty())
                 errorCounter++;
             return errorCounter;
         }

@@ -16,10 +16,10 @@ namespace Compiler.Model
         */
         public static string [] splitString(string s, string seperator)
         {
-            string []splittedStrings = new string[0];
+            string[] splittedStrings = new string[0];
             int splitIndex = 0; // indexer for the splittedStrings array
 
-            char []charBuffer = new char[0];
+            char[] charBuffer = new char[0];
             int charIndex = 0; // index for the charBuffer array
 
             // scan every character and compare it with 
@@ -143,9 +143,9 @@ namespace Compiler.Model
 
             oldArray must be initalized with non negative length
         */
-        public static string[] copyStringAndAdd1(string []oldArray)
+        public static string[] copyStringAndAdd1(string[] oldArray)
         {
-            string []newArray = new string[oldArray.Length+1];
+            string[] newArray = new string[oldArray.Length+1];
             for(int i = 0; i < oldArray.Length; i++)
             {
                 newArray[i] = oldArray[i];
@@ -425,5 +425,17 @@ namespace Compiler.Model
 		    }
 		    return true;
 	    }
+
+        public static bool areEqual(string s1, string s2)
+        {
+            if (s1.Length != s2.Length)
+                return false;
+            for(int i = 0; i < s1.Length; i++)
+            {
+                if (s1[i] != s2[i])
+                    return false;
+            }
+            return true;
+        }
     }
 }
