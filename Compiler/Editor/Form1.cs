@@ -107,6 +107,30 @@ namespace Compiler.Editor
                 button7.Text = "Erros:" + numberOfErrors;
                 button7.Enabled = true;
                 button7.Visible = true;
+
+                int startText = 0;
+                int endText;
+                //error marking red
+                foreach (var p in Model.CodeErrors.rows)
+                {
+                    if (p.matchability == false)
+                    {
+                        endText = richTextBox1.Text.LastIndexOf(p.lexem);
+
+                        richTextBox1.SelectAll();
+
+                        while (startText < endText)
+                        {
+
+                            richTextBox1.Find(p.lexem, startText, richTextBox1.TextLength, RichTextBoxFinds.MatchCase);
+                            richTextBox1.SelectionBackColor = Color.Red;
+
+                            startText = richTextBox1.Text.IndexOf(p.lexem, startText) + 1;
+                        }
+                    }
+                }
+                //end of marking
+                richTextBox1.DeselectAll();
             }
             else
             {
@@ -324,7 +348,7 @@ namespace Compiler.Editor
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
+            dataGridView1.Visible = false;
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = @"C:\",//opening location
@@ -358,6 +382,7 @@ namespace Compiler.Editor
                 fromFile = newString;
                 MessageBox.Show("File is ready click Compile to start\nPress X to discard selected file");
             }
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -1295,6 +1320,8 @@ namespace Compiler.Editor
             richTextBox1.Enabled = true;
             fromFile = "";
             button11.Visible=false;
+            dataGridView1.Visible = false;
+            button7.Visible = false;
         }
 
         private void button11_MouseHover(object sender, EventArgs e)
