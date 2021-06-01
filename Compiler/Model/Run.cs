@@ -67,8 +67,7 @@ namespace Compiler.Model
 
 
             Model.Scanner scanner = new Scanner();
-            scanner.setProgram(test2);
-            scanner.getLexema();
+            scanner.getLexema(test2);
             scanner.queue.display();
             Console.WriteLine("LineNo\tLexem\tLexemeNoInLine\tMarchability\tReturnToken");
             int n = CodeErrors.getNumberOfErrors(scanner.queue);

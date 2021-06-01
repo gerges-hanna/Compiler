@@ -172,7 +172,7 @@ namespace Compiler.Model
                             if (!after)
                             {
                                 errorCounter++;
-                                rows[i + 1].matchability = false;
+                                rows[i].matchability = false;
                             }
                         }
                         else

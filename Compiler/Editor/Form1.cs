@@ -97,8 +97,7 @@ namespace Compiler.Editor
         
 
             Model.Scanner sc = new Model.Scanner();
-            sc.setProgram((fromFile == "" ? richTextBox1.Text : fromFile));
-            sc.getLexema();
+            sc.getLexema((fromFile == "" ? richTextBox1.Text : fromFile));
             Model.CodeErrors.rows = new Model.ScannerModel[0];
             numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);
 
