@@ -15,6 +15,7 @@ namespace Compiler.Model
             DS.Stack<char> singleQuotationMark = new DS.Stack<char>('e');
             int errorCounter = 0;
             int linesIndex = 0;
+            rows = new ScannerModel[0];
             while (!queue.isEmpty())
             {
                 ScannerModel newSM = new ScannerModel();
@@ -219,21 +220,21 @@ namespace Compiler.Model
                             rows[i].matchability = false;
                         }
                     break;
-                    case "Require":
-                        if (i + 1 > rows.Length)
-                        {
-                            rows[i].matchability = false;
-                            errorCounter++;
-                        }
-                        else
-                        {
-                            if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem))
-                            {
-                                rows[i].matchability = false;
-                                errorCounter++;
-                            }
-                        }
-                    break;
+                    //case "Require":
+                    //    if (i + 1 > rows.Length)
+                    //    {
+                    //        rows[i].matchability = false;
+                    //        errorCounter++;
+                    //    }
+                    //    else
+                    //    {
+                    //        if (!DevelopedFunctions.isValidIdentifier(rows[i + 1].lexem))
+                    //        {
+                    //            rows[i].matchability = false;
+                    //            errorCounter++;
+                    //        }
+                    //    }
+                    //break;
                     case ",":
                         before = true;
                         after = true;

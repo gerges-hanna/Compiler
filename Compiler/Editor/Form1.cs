@@ -94,13 +94,19 @@ namespace Compiler.Editor
             progressBar1.Value = 0;
             this.timer1.Start();
             dataGridView1.Visible = true;
-        
 
-            Model.Scanner sc = new Model.Scanner();
+
+            // old scanner
+            /*Model.Scanner sc = new Model.Scanner();
             sc.getLexema((fromFile == "" ? richTextBox1.Text : fromFile));
             Model.CodeErrors.rows = new Model.ScannerModel[0];
-            numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);
+            numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);*/
 
+
+            // new scanner
+            Model.ScannerOutput so = new Model.ScannerOutput((fromFile == "" ? richTextBox1.Text : fromFile));
+            numberOfErrors = so.CompileAll();
+            Model.ScannerModel[] rows = so.getRows();
             if (numberOfErrors > 0)
             {
                 button7.Text = "Erros:" + numberOfErrors;
@@ -110,7 +116,7 @@ namespace Compiler.Editor
                 int startText = 0;
                 int endText;
                 //error marking red
-                foreach (var p in Model.CodeErrors.rows)
+                foreach (var p in rows)
                 {
                     if (p.matchability == false)
                     {
@@ -141,14 +147,14 @@ namespace Compiler.Editor
             //dataGridView1.DataSource = table;
 
           
-            foreach (var p in Model.CodeErrors.rows)
+            foreach (var p in rows)
             {
                    var row = table.NewRow();
                     row["Line NO."] = p.lineNo;
                     row["Lexeme"] = p.lexem;
                     row["Return Token"] = p.returnToken;
                     row["Lexeme NO. in Line"] = p.lexemeNoInLine;
-                    row["Matchability"] = (p.matchability ? "Match" : "Unmatch");
+                    row["Matchability"] = (p.lineNo == 0 ? "" :(p.matchability ? "Match" : "Unmatch"));
                     table.Rows.Add(row);
             }
             dataGridView1.DataSource = table;

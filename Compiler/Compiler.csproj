@@ -62,6 +62,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\Run.cs" />
+    <Compile Include="Model\ScannerOutput.cs" />
     <Compile Include="Model\CodeErrors.cs" />
     <Compile Include="Model\DS\Queue.cs" />
     <Compile Include="Model\DS\Stack.cs" />
