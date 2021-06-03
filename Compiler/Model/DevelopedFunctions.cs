@@ -437,5 +437,15 @@ namespace Compiler.Model
             }
             return true;
         }
+
+        public static bool isStringThere(string []array, string value)
+        {
+            for(int i = 0; i < array.Length; i++)
+            {
+                if (value == array[i])
+                    return true;
+            }
+            return false;
+        }
     }
 }

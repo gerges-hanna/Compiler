@@ -12,11 +12,13 @@ namespace Compiler.Model
         private ScannerModel[] rows;
         private int totalNumberOfErrors = 0;
         private string mainCode;
+        private string[] filesIncluded;
         public ScannerOutput(string mainCode)
         {
             rows = new ScannerModel[0];
             this.mainCode = mainCode;
             totalNumberOfErrors = 0;
+            filesIncluded = new string[0];
         }
 
         public int CompileAll()
@@ -53,8 +55,11 @@ namespace Compiler.Model
                     this.rows[this.rows.Length - 1] = tmpRows[i];
                     if (tmpRows[i].returnToken == "Inclusion" || tmpRows[i].lexem == "Require")
                     {
-                        if (i + 1 < tmpRows.Length)
+                        if (i + 1 < tmpRows.Length && !DevelopedFunctions.isStringThere(filesIncluded, tmpRows[i + 1].lexem))
                         {
+                            filesIncluded = DevelopedFunctions.copyAndAdd1<string>(filesIncluded);
+                            filesIncluded[filesIncluded.Length - 1] = tmpRows[i + 1].lexem;
+
                             this.rows = DevelopedFunctions.copyAndAdd1<ScannerModel>(this.rows);
                             this.rows[this.rows.Length - 1] = tmpRows[i + 1];
 
