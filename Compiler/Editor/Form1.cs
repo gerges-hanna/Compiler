@@ -31,6 +31,9 @@ namespace Compiler.Editor
         string keyword;
         int count = 0;
 
+        private Model.ScannerOutput so;
+        private Model.ScannerModel[] rows;
+
         //the following flags control which items to be added or deleted to the list box
         int BpressedFlag = 0;
         int CpressedFlag = 0;
@@ -104,9 +107,18 @@ namespace Compiler.Editor
 
 
             // new scanner
-            Model.ScannerOutput so = new Model.ScannerOutput((fromFile == "" ? richTextBox1.Text : fromFile));
+            so = new Model.ScannerOutput((fromFile == "" ? richTextBox1.Text : fromFile));
             numberOfErrors = so.CompileAll();
-            Model.ScannerModel[] rows = so.getRows();
+            rows = so.getRows();
+
+
+
+          
+        
+
+
+
+            int stackFiles = 0;
             if (numberOfErrors > 0)
             {
                 button7.Text = "Erros:" + numberOfErrors;
@@ -118,7 +130,12 @@ namespace Compiler.Editor
                 //error marking red
                 foreach (var p in rows)
                 {
-                    if (p.matchability == false)
+                    if (p.lineNo == 0 && p.returnToken.Contains("start"))
+                        stackFiles++;
+                    else if (p.lineNo == 0 && p.returnToken.Contains("end"))
+                        stackFiles--;
+
+                    if (stackFiles <= 0 && p.lineNo != 0 && p.matchability == false && buttonPress==false)
                     {
                         endText = richTextBox1.Text.LastIndexOf(p.lexem);
 
@@ -159,6 +176,18 @@ namespace Compiler.Editor
             }
             dataGridView1.DataSource = table;
 
+            // coloring start and end files
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (Convert.ToInt32(row.Cells[0].Value) == 0)
+                {
+                    row.DefaultCellStyle.ForeColor = Color.Red;
+                }
+            }
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
         }
 
@@ -353,6 +382,7 @@ namespace Compiler.Editor
 
         private void button2_Click(object sender, EventArgs e)
         {
+
             dataGridView1.Visible = false;
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
@@ -372,6 +402,7 @@ namespace Compiler.Editor
             };
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                buttonPress = true;
                 richTextBox1.Enabled = false;
                 button11.Visible = true;
                 StreamReader sr = new StreamReader(openFileDialog1.OpenFile());
@@ -1299,17 +1330,35 @@ namespace Compiler.Editor
 
         private void button7_Click(object sender, EventArgs e)
         {
+            List<string> filesStack = new List<string>();
             richTextBox3.Clear();
             button8.Enabled = true;
             dataGridView1.Visible = false;
             int counter = 1;
             if (numberOfErrors > 0)
             {
-                foreach (var p in Model.CodeErrors.rows)
+                foreach (var p in rows)
                 {
-                   if(p.matchability == false)
+                    if(p.lineNo == 0)
                     {
-                        string STR = $"{counter}.  Error in line [{p.lineNo}]  --> Lexeme [{p.lexem}]  ,Return Token [{p.returnToken}]";
+                        string[]splitted = p.returnToken.Split(':');
+                        if(splitted[0].Contains("start"))
+                        {
+                            filesStack.Add(splitted[1]); 
+                        }
+                        else if(splitted[0].Contains("end"))
+                        {
+                            filesStack.RemoveAt(filesStack.Count - 1);
+                        }
+                        
+                    }
+                    else if(p.matchability == false)
+                    {
+                        string STR;
+                        if(filesStack.Count > 0)
+                            STR = $"{counter}.  Error in file [{filesStack.Last()}] in line [{p.lineNo}]  --> Lexeme [{p.lexem}]  ,Return Token [{p.returnToken}]";
+                        else
+                            STR = $"{counter}.  Error in line [{p.lineNo}]  --> Lexeme [{p.lexem}]  ,Return Token [{p.returnToken}]";
                         richTextBox3.Text = richTextBox3.Text + STR ;
                         richTextBox3.AppendText(Environment.NewLine);
                         counter++;
@@ -1323,10 +1372,13 @@ namespace Compiler.Editor
         private void button11_Click(object sender, EventArgs e)
         {
             richTextBox1.Enabled = true;
+            buttonPress = false;
             fromFile = "";
             button11.Visible=false;
             dataGridView1.Visible = false;
             button7.Visible = false;
+            richTextBox3.Visible = false;
+            button8.Enabled = false;
         }
 
         private void button11_MouseHover(object sender, EventArgs e)
@@ -1335,6 +1387,11 @@ namespace Compiler.Editor
             toolTip1.InitialDelay = 10;
             toolTip1.ReshowDelay = 500;
             toolTip1.SetToolTip(button11, "Stop browsing process");
+        }
+
+        private void richTextBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

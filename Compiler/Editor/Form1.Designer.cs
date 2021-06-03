@@ -33,6 +33,7 @@ namespace Compiler.Editor
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -53,7 +54,6 @@ namespace Compiler.Editor
             this.button9 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
@@ -101,6 +101,18 @@ namespace Compiler.Editor
             this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             this.button4.MouseHover += new System.EventHandler(this.button4_MouseHover);
+            // 
+            // button3
+            // 
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
+            this.button3.Location = new System.Drawing.Point(722, 448);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(21, 19);
+            this.button3.TabIndex = 4;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
             // 
             // textBox1
             // 
@@ -162,7 +174,6 @@ namespace Compiler.Editor
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.richTextBox1.Size = new System.Drawing.Size(757, 447);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.TabStop = false;
             this.richTextBox1.Text = "-- TODO code application here";
             this.richTextBox1.WordWrap = false;
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.richTextBox1_SelectionChanged);
@@ -350,18 +361,6 @@ namespace Compiler.Editor
             this.button5.Click += new System.EventHandler(this.button5_Click);
             this.button5.MouseHover += new System.EventHandler(this.button5_MouseHover);
             // 
-            // button3
-            // 
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::Compiler.Properties.Resources.Webp_net_resizeimage__10_;
-            this.button3.Location = new System.Drawing.Point(722, 448);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(21, 19);
-            this.button3.TabIndex = 4;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseHover += new System.EventHandler(this.button3_MouseHover);
-            // 
             // button2
             // 
             this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
@@ -393,15 +392,16 @@ namespace Compiler.Editor
             // richTextBox3
             // 
             this.richTextBox3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox3.Location = new System.Drawing.Point(71, 565);
+            this.richTextBox3.Location = new System.Drawing.Point(73, 565);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
             this.richTextBox3.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBox3.Size = new System.Drawing.Size(694, 205);
+            this.richTextBox3.Size = new System.Drawing.Size(692, 205);
             this.richTextBox3.TabIndex = 17;
             this.richTextBox3.Text = "";
             this.richTextBox3.Visible = false;
             this.richTextBox3.WordWrap = false;
+            this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
             // 
             // button11
             // 

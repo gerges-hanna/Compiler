@@ -325,6 +325,20 @@ namespace Compiler.Model
                 errorCounter++;
             if (!doubleQuotationMark.isEmpty())
                 errorCounter++;
+            for(int i = 0; i < rows.Length; i++)
+            {
+                if (rows[i].matchability == true && rows[i].returnToken == "Identifier")
+                {
+                    if(i-1 != -1 && rows[i-1].lexem != "Require")
+                    {
+                        if (!DevelopedFunctions.isValidIdentifier(rows[i].lexem))
+                        {
+                            rows[i].matchability = false;
+                            errorCounter++;
+                        }
+                    }
+                }
+            }
             return errorCounter;
         }
     }
