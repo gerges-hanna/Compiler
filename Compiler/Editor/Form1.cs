@@ -34,7 +34,7 @@ namespace Compiler.Editor
         private Model.ScannerOutput so;
         private Model.ScannerModel[] rows;
 
-        //the following flags control which items to be added or deleted to the list box
+        //the following flags control which items to be added or deleted to the list box of auto complete
         int BpressedFlag = 0;
         int CpressedFlag = 0;
         int DpressedFlag = 0;
@@ -99,13 +99,6 @@ namespace Compiler.Editor
             dataGridView1.Visible = true;
 
 
-            // old scanner
-            /*Model.Scanner sc = new Model.Scanner();
-            sc.getLexema((fromFile == "" ? richTextBox1.Text : fromFile));
-            Model.CodeErrors.rows = new Model.ScannerModel[0];
-            numberOfErrors = Model.CodeErrors.getNumberOfErrors(sc.queue);*/
-
-
             // new scanner
             so = new Model.ScannerOutput((fromFile == "" ? richTextBox1.Text : fromFile));
             numberOfErrors = so.CompileAll();
@@ -114,8 +107,6 @@ namespace Compiler.Editor
 
 
           
-        
-
 
 
             int stackFiles = 0;
@@ -160,7 +151,6 @@ namespace Compiler.Editor
                 button7.Enabled = false;
                 button7.Visible = false;
             }
-          //  table.Rows.Add("1","--","Comment","1","Matched");
             //dataGridView1.DataSource = table;
 
           
@@ -250,7 +240,6 @@ namespace Compiler.Editor
         
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-            //label2.Text = "Col:" + richTextBox1.GetFirstCharIndexOfCurrentLine();
             // create the line number in the list box
             try
             {
@@ -375,9 +364,7 @@ namespace Compiler.Editor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.progressBar1.Increment(10);
-
-
+            this.progressBar1.Increment(1000);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -993,7 +980,7 @@ namespace Compiler.Editor
                     if (VpressedFlag == 0)
                     {
                         keyword = "V";
-                        listBox2.Items.Add("ValueLess");
+                        listBox2.Items.Add("Valueless");
                     }
                     VpressedFlag = 1;
                     listShow = true;
@@ -1191,7 +1178,8 @@ namespace Compiler.Editor
                     }
                 }
             }
-            catch (ArgumentOutOfRangeException z) { }
+            catch(System.NullReferenceException k)
+            { }
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -1393,5 +1381,6 @@ namespace Compiler.Editor
         {
 
         }
+
     }
 }

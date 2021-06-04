@@ -41,6 +41,7 @@ namespace Compiler.Model
                             refreshedString += OriginalString[i].ToString();
                         }
                     }
+                    st.Close();
                     sc.getLexema(refreshedString);
                 }
                 else

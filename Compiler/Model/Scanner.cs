@@ -32,6 +32,8 @@ namespace Compiler.Model
         private bool foundComment = false;
         private bool multiLineComment = false;
 
+        
+
         private string[] myArray;
 
         public void getLexema(String Program)
@@ -127,6 +129,7 @@ namespace Compiler.Model
 
             }
         }
+
         private bool skipCommentLine(int i)
         {
             //To Skip Comment Line and don't check it 

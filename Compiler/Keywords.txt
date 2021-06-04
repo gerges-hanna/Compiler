@@ -7,12 +7,12 @@ Sity	SInteger
 Cwq	Character
 CwqSequence	String
 Ifity	Float
-Sifty	SFloat
+Sifity	SFloat
 Valueless	Void
 Logical	Boolean
 BreakFromThis	Break
 Whatever	Loop
-RespondWith	Return
+Respondwith	Return
 Srap	Struct
 Scan	Switch
 Conditionof	Switch
@@ -53,7 +53,7 @@ $	End Symbol
 ,	Comma
 Require	Inclusion
 /-	Comment
--/	UnComment
+-/	Uncomment
 --	Comment
 #	Token Delimiter
 ^	Line Delimiter
