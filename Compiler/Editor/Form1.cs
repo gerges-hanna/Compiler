@@ -21,7 +21,7 @@ namespace Compiler.Editor
         System.Windows.Forms.ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         public int argb;
        
-        public static bool buttonPress = false;
+        public static bool buttonPress = false; 
         public int flagFirstLine=0;
         public int numberOfErrors=1;
         public static string fromFile = "";
